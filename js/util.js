@@ -9,18 +9,19 @@ export const esc = s => String(s).replace(/[&<>"']/g, ch => ESC[ch]);
 
 /** Normaliza para comparar: minúsculas, sin acentos, sin puntuación, espacios simples. */
 export const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
-  .replace(/[’`]/g, "'").replace(/[.,!?¡¿;:"]/g, '').replace(/\s+/g, ' ').trim();
+  .replace(/[’`]/g, "'").replace(/[.,!?¡¿;:"«»]/g, '').replace(/\s+/g, ' ').trim();
 
-/** Distancia de edición (Levenshtein). */
+/** Distancia de edición (Damerau, versión OSA): cambiar, agregar, quitar o invertir dos letras vecinas cuenta 1. */
 export function lev(a, b){
   const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
-  let prev = Array.from({length: n + 1}, (_, j) => j);
-  for (let i = 1; i <= m; i++){
-    const cur = [i];
-    for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j-1] + 1, prev[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
-    prev = cur;
+  const d = Array.from({length: m + 1}, (_, i) => { const r = new Array(n + 1).fill(0); r[0] = i; return r; });
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++){
+    const cost = a[i-1] === b[j-1] ? 0 : 1;
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + cost);
+    if (i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
   }
-  return prev[n];
+  return d[m][n];
 }
 
 /** Fecha LOCAL del dispositivo como "AAAA-MM-DD" (no UTC). */

@@ -7,6 +7,8 @@ import { SLOTS, decorDef, wallDef } from '../data/shop.js';
 import { speak } from '../speech.js';
 import { register, showView } from '../router.js';
 import { startLesson } from './lesson.js';
+import { pathActive, nextLesson, dueKeys } from '../engine/path.js';
+import { runLesson, runReview } from '../engine/runner.js';
 import { unread } from '../letters.js';
 import { openLetter, checkLetters } from './letters.js';
 
@@ -54,7 +56,7 @@ export function renderRoom(){
 
 function renderHome(){
   tick(); renderTop();
-  const p = petDef(S.pet), name = petName(p.id), due = dueCards().length;
+  const p = petDef(S.pet), name = petName(p.id), path = pathActive(), due = path ? dueKeys().length : dueCards().length;
   renderRoom();
   $('#petwrap').innerHTML = petSVG(p); setPetState(baseState());
   $('#petname').textContent = name; $('#petsp').textContent = p.sp;
@@ -67,9 +69,14 @@ function renderHome(){
     S.fullness < 30 ? `${name} tiene hambre… dale una semilla.` :
     due > 0 ? `${name} quiere repasar ${due} palabra${due > 1 ? 's' : ''}.` :
     `${name} está feliz. Buen momento para aprender algo nuevo.`;
-  const btn = $('#btnStudy');
-  btn.textContent = due > 0 ? `Repasar ${due} · + aprender` : 'Aprender palabras nuevas';
-  btn.classList.toggle('warm', due > 0);
+  const btn = $('#btnStudy'), nx = path && nextLesson();
+  if (nx){ // ruta A2: la lección siguiente + botón aparte para repasar
+    btn.textContent = `▶ ${nx.u.icon} ${nx.l.title}`; btn.classList.remove('warm');
+    $('#btnReview').hidden = !due; $('#btnReview').textContent = `🔁 Repasar (${due})`;
+  } else {
+    btn.textContent = path ? (due ? `🔁 Repasar (${due})` : '✨ Practicar lo aprendido') : due > 0 ? `Repasar ${due} · + aprender` : 'Aprender palabras nuevas';
+    btn.classList.toggle('warm', due > 0); $('#btnReview').hidden = true;
+  }
   $('#goalTxt').textContent = `${Math.min(S.todayXP, CFG.dailyGoal)} / ${CFG.dailyGoal} XP ${S.todayXP >= CFG.dailyGoal ? '✓' : ''}`;
 }
 register('home', renderHome);
@@ -89,6 +96,11 @@ $('#btnWord').onclick = () => {
   const learned = allCards().filter(c => isSeen(c.key)), pool = learned.length ? learned : allCards().slice(0, 12);
   const w = pick(pool); speak(w.en); bubble(`${esc(w.en)}<small>${esc(w.es)}</small>`, 3200); setPetState('happy', 1400);
 };
-$('#btnStudy').onclick = () => startLesson();
+$('#btnStudy').onclick = () => {
+  if (!pathActive()) return startLesson();
+  const nx = nextLesson();
+  if (nx) runLesson(nx.u, nx.l); else if (dueKeys().length) runReview(); else startLesson();
+};
+$('#btnReview').onclick = () => runReview();
 $('#btnYard').onclick = () => showView('yard');
 $('#letterBtn').onclick = () => { const l = unread()[0]; if (l) openLetter(l); };

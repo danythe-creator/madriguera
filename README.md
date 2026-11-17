@@ -29,7 +29,9 @@ Luego abre <http://localhost:8000> en el navegador.
 index.html              estructura de las pantallas
 css/styles.css          estilos (colores en :root)
 js/main.js              arranque
-js/data/units.js        ← CONTENIDO: unidades y palabras (edita aquí)
+js/data/units.js        ← CONTENIDO A1: unidades de vocabulario
+js/content/             ← CURSO A2+: unidades con lecciones (ver docs/CONTENIDO.md)
+js/engine/              motor de lecciones v2: generador de ejercicios, reproductor, ruta, voz
 js/data/config.js       mascotas (variedades y cómo se consiguen) y ajustes del juego
 js/data/shop.js         objetos de la tienda y colores de pared
 js/state.js             progreso guardado (localStorage) y migraciones
@@ -50,6 +52,7 @@ Cada pull request corre las pruebas solo en GitHub (pestaña **Actions**): si al
 
 - `tests/logic.test.mjs` — repaso espaciado, revisión de respuestas, cartas sorpresa.
 - `tests/content.test.mjs` — integridad del contenido (palabras, mascotas, tienda, escenarios).
+- `tests/course.test.mjs` — curso A2: contenido, ejercicios generados, oraciones, pronunciación, prueba de nivel.
 - `tests/e2e.mjs` — recorre la app en un navegador real: lección, tienda, "Juntos", cartas.
 
 Para correrlas en tu PC (opcional, necesita Node.js): `npm test`.

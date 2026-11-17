@@ -25,7 +25,11 @@ const fresh = () => ({
   drafts: [], author: '',
   reports: [],        // errores reportados desde los ejercicios
   lastBackup: null, lastBackupNag: null,  // fecha del último respaldo y del último recordatorio
-  seenVersion: null,  // última versión cuyas novedades ya se mostraron  // cartas que escribe quien usa este dispositivo para alguien más
+  seenVersion: null,  // última versión cuyas novedades ya se mostraron
+  lessons: {},        // curso v2: "unidad:lección" -> { done, best (%), ts }
+  placement: null,    // resultado de la prueba de nivel
+  skills: {},         // aciertos por habilidad: vocab, grammar, listen, read, write, speak
+  noSpeakUntil: 0,    // pausa de ejercicios de hablar ("No puedo hablar ahora")  // cartas que escribe quien usa este dispositivo para alguien más
   cards: {},          // "unidad:palabra" -> datos FSRS
   stats: { sessions: 0, answers: 0, correct: 0, days: {} },  // days: "AAAA-MM-DD" -> XP
   settings: { rate: 0.9, voice: null, sound: true },

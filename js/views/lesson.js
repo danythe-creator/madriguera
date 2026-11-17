@@ -38,6 +38,8 @@ export function startLesson(unitId){
   }
   if (!queue.length) return toast('No hay nada que estudiar todavía.');
   L = { queue, i: 0, total: queue.length, correct: 0, wrong: 0, xp: 0, seeds: 0, answered: new Set(), retry: [] };
+  // la vista de lección se comparte con las lecciones v2: conectar los botones a esta sesión
+  $('#btnNext').onclick = onNext; $('#btnQuit').onclick = onQuit; $('#btnReport').onclick = onReport;
   showView('lesson'); nextEx();
 }
 
@@ -124,21 +126,21 @@ function answer(v, btn){
   $('#btnReport').textContent = '⚑ Reportar un error'; $('#btnReport').disabled = false;
   if (t !== 'en2es') speak(c.en);
   save();
-  setTimeout(() => $('#btnNext').focus(), 50);
+  setTimeout(() => $('#btnNext').focus({ preventScroll: true }), 50);
 }
 
-$('#btnNext').onclick = () => {
+const onNext = () => {
   L.i++;
   if (L.i >= L.queue.length && L.retry.length){ L.queue.push(...L.retry); L.retry = []; } // los errores vuelven al final
   nextEx();
 };
-$('#btnQuit').onclick = () => { if (L && L.answered.size > 0) finish(true); else { L = null; showView('home'); } };
+const onQuit = () => { if (L && L.answered.size > 0) finish(true); else { L = null; showView('home'); } };
 
 // Atajos de teclado (útiles en computadora): 1-4 para elegir, Enter para continuar, Esc para salir.
 document.addEventListener('keydown', e => {
   if (!L || $('#view-lesson').classList.contains('hidden')) return;
-  if (e.key === 'Escape') return $('#btnQuit').onclick();
-  if ($('#fb').classList.contains('show')){ if (e.key === 'Enter'){ e.preventDefault(); $('#btnNext').onclick(); } return; }
+  if (e.key === 'Escape') return onQuit();
+  if ($('#fb').classList.contains('show')){ if (e.key === 'Enter'){ e.preventDefault(); onNext(); } return; }
   const n = +e.key; if (n >= 1 && n <= 4){ const b = $$('.opt')[n - 1]; if (b) b.click(); }
 });
 
@@ -170,7 +172,7 @@ function finish(early){
 }
 
 // Reportar un error en el ejercicio actual (se guarda y se exporta desde Progreso).
-$('#btnReport').onclick = () => {
+const onReport = () => {
   const cur = L?.cur; if (!cur) return;
   const note = prompt('¿Qué está mal? (opcional: por ejemplo "la traducción no es correcta")', '');
   if (note === null) return;

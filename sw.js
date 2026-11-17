@@ -1,10 +1,12 @@
 // Service worker: permite usar la app sin internet.
 // Estrategia: red primero (para recibir siempre la versión nueva) y, si no hay conexión, la copia guardada.
-const CACHE = 'madriguera-v8';
+const CACHE = 'madriguera-v9';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
   'js/main.js', 'js/util.js', 'js/state.js', 'js/srs.js', 'js/speech.js', 'js/answers.js', 'js/letters.js', 'js/router.js', 'js/petsvg.js',
-  'js/data/units.js', 'js/data/config.js', 'js/data/shop.js', 'js/data/changelog.js', 'js/data/scenes.js',
+  'js/data/units.js', 'js/data/config.js', 'js/data/shop.js',
+  'js/content/index.js', 'js/content/a2/routine.js', 'js/content/a2/past.js', 'js/content/a2/restaurant.js', 'js/content/a2/plans.js', 'js/content/a2/compare.js',
+  'js/engine/path.js', 'js/engine/listen.js', 'js/engine/build.js', 'js/engine/runner.js', 'js/data/changelog.js', 'js/data/scenes.js',
   'js/views/home.js', 'js/views/units.js', 'js/views/lesson.js', 'js/views/collection.js', 'js/views/shop.js', 'js/views/yard.js', 'js/views/letters.js', 'js/views/news.js', 'js/views/settings.js',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
