@@ -6,6 +6,7 @@ import { renderTop } from './views/home.js';
 import './views/units.js';
 import { checkUnlocks } from './views/collection.js';
 import './views/shop.js';
+import './views/yard.js';
 import './views/settings.js';
 
 load(); tick(); save(); checkUnlocks(); renderTop();
