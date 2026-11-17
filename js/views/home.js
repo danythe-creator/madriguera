@@ -1,8 +1,9 @@
 // CASA: la mascota en su cuarto.
 import { $, pick, esc, toast } from '../util.js';
-import { S, save, tick, dueCards, allCards, isSeen, level } from '../state.js';
+import { S, save, tick, dueCards, allCards, isSeen, level, petName } from '../state.js';
 import { CFG, petDef } from '../data/config.js';
-import { PET_SVG } from '../petsvg.js';
+import { petSVG } from '../petsvg.js';
+import { SLOTS, decorDef, wallDef } from '../data/shop.js';
 import { speak } from '../speech.js';
 import { register } from '../router.js';
 import { startLesson } from './lesson.js';
@@ -14,9 +15,9 @@ export function renderTop(){
 
 let stateT;
 function setPetState(st, ms){
-  const w = $('#petwrap'); w.dataset.state = st; $('#wheel').classList.toggle('spin', st === 'happy');
+  const w = $('#petwrap'); w.dataset.state = st; $('#wheel')?.classList.toggle('spin', st === 'happy');
   clearTimeout(stateT);
-  if (ms) stateT = setTimeout(() => { w.dataset.state = baseState(); $('#wheel').classList.remove('spin'); }, ms);
+  if (ms) stateT = setTimeout(() => { w.dataset.state = baseState(); $('#wheel')?.classList.remove('spin'); }, ms);
 }
 const baseState = () => S.fullness < 30 ? 'sleepy' : 'idle';
 
@@ -37,17 +38,30 @@ function renderMeter(){
   $('#btnFeed').disabled = S.seeds < CFG.feedCost;
 }
 
+/** Pinta la decoración comprada en cada zona del cuarto y el color de pared. */
+export function renderRoom(){
+  for (const slot of Object.keys(SLOTS)){
+    const d = decorDef(S.decor[slot]);
+    const el = $('#slot-' + slot);
+    el.innerHTML = d ? d.html() : '';
+    el.dataset.item = d ? d.id : '';
+  }
+  const w = wallDef(S.wallTheme);
+  $('#room').style.setProperty('--wallA', w.a); $('#room').style.setProperty('--wallB', w.b);
+}
+
 function renderHome(){
   tick(); renderTop();
-  const p = petDef(S.pet), due = dueCards().length;
-  $('#petwrap').innerHTML = PET_SVG[p.id](); setPetState(baseState());
-  $('#petname').textContent = p.name; $('#petsp').textContent = p.sp + ' · ' + p.lvl;
+  const p = petDef(S.pet), name = petName(p.id), due = dueCards().length;
+  renderRoom();
+  $('#petwrap').innerHTML = petSVG(p); setPetState(baseState());
+  $('#petname').textContent = name; $('#petsp').textContent = p.sp;
   renderMeter();
   const h = new Date().getHours(); $('#win').classList.toggle('night', h < 7 || h >= 19);
   $('#mood').textContent =
-    S.fullness < 30 ? `${p.name} tiene hambre… dale una semilla.` :
-    due > 0 ? `${p.name} quiere repasar ${due} palabra${due > 1 ? 's' : ''}.` :
-    `${p.name} está feliz. Buen momento para aprender algo nuevo.`;
+    S.fullness < 30 ? `${name} tiene hambre… dale una semilla.` :
+    due > 0 ? `${name} quiere repasar ${due} palabra${due > 1 ? 's' : ''}.` :
+    `${name} está feliz. Buen momento para aprender algo nuevo.`;
   const btn = $('#btnStudy');
   btn.textContent = due > 0 ? `Repasar ${due} · + aprender` : 'Aprender palabras nuevas';
   btn.classList.toggle('warm', due > 0);

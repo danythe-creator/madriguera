@@ -24,12 +24,15 @@
 
   <!-- ===== CASA ===== -->
   <section id="view-home" class="view">
-    <div class="room">
+    <div class="room" id="room">
       <div class="wall"></div>
       <div class="win" id="win"><i></i></div>
-      <div class="shelf"><b></b><b></b><b></b><b></b></div>
-      <div class="wheel" id="wheel"></div>
+      <div class="slot slot-wall" id="slot-wall"></div>
+      <div class="slot slot-hang" id="slot-hang"></div>
       <div class="floor"></div>
+      <div class="slot slot-rug" id="slot-rug"></div>
+      <div class="slot slot-left" id="slot-left"></div>
+      <div class="slot slot-right" id="slot-right"></div>
       <div class="bubble" id="bubble"></div>
       <div class="petwrap" id="petwrap" data-state="idle"></div>
       <div class="fx" id="fx"></div>
@@ -73,7 +76,16 @@
   <!-- ===== ROEDORES ===== -->
   <section id="view-pets" class="view hidden">
     <div class="list"><h1>Tus roedores</h1></div>
-    <div class="grid" id="pets"></div>
+    <div class="petlist" id="pets"></div>
+  </section>
+
+  <!-- ===== TIENDA ===== -->
+  <section id="view-shop" class="view hidden">
+    <div class="list">
+      <div class="shophead"><h1>Tienda</h1><span class="stat">🌰 <b id="shopSeeds">0</b></span></div>
+      <p class="note">Gana semillas estudiando: 1 por acierto, +5 por sesión perfecta y +5 al cumplir la meta del día.</p>
+      <div id="shop"></div>
+    </div>
   </section>
 
   <!-- ===== PERFIL ===== -->
@@ -98,7 +110,8 @@
   <nav>
     <button data-v="home" class="on"><span>🏠</span>Casa</button>
     <button data-v="units"><span>📚</span>Lecciones</button>
-    <button data-v="pets"><span>🐭</span>Roedores</button>
+    <button data-v="pets"><span>🐀</span>Roedores</button>
+    <button data-v="shop"><span>🛍️</span>Tienda</button>
     <button data-v="settings"><span>📈</span>Progreso</button>
   </nav>
   <div class="toast" id="toast"></div>
