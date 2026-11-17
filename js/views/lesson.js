@@ -12,6 +12,7 @@ import { check, isCognate } from '../answers.js';
 import { showView } from '../router.js';
 import { renderTop } from './home.js';
 import { checkUnlocks } from './collection.js';
+import { checkLetters } from './letters.js';
 
 let L = null; // sesión actual
 
@@ -71,17 +72,17 @@ function nextEx(){
   const hint = `<div class="pethint">${petSVG(p)}<span>${isNew ? `Palabra nueva: ${esc(petName(p.id))} la está aprendiendo contigo.` : 'Repaso'}</span></div>`;
   const list = t === 'type' ? [] : options(c, field); L.cur.list = list;
   const opts = `<div class="opts">${list.map((o, i) => `<button class="opt" data-i="${i}"><kbd>${i + 1}</kbd>${esc(o)}</button>`).join('')}</div>`;
-  const spk = `<button class="spk" data-say="${esc(c.en)}" aria-label="Escuchar">🔊</button>`;
+  const spk = `<button class="spk" data-say="${esc(c.en)}" aria-label="Escuchar">🔊</button><button class="spk turtle" data-slow="${esc(c.en)}" aria-label="Escuchar lento">🐢</button>`;
   const html = {
     en2es: `<div class="q">¿Qué significa?</div><div class="big">${esc(c.en)}${spk}</div>${opts}`,
     es2en: `<div class="q">¿Cómo se dice en inglés?</div><div class="big">${esc(c.es)}</div>${opts}`,
     fill:  `<div class="q">Completa la oración</div><div class="sent">${esc(c.s).replace('___', '<u>&nbsp;</u>')}</div><p class="tr">${esc(c.es)}</p>${opts}`,
-    listen:`<div class="q">Escucha y elige lo que oíste</div><button class="spk xl" data-say="${esc(c.en)}" aria-label="Escuchar">🔊</button><button class="slow" data-slow="${esc(c.en)}">🐢 Más lento</button>${opts}`,
+    listen:`<div class="q">Escucha y elige lo que oíste</div><button class="spk xl" data-say="${esc(c.en)}" aria-label="Escuchar">🔊</button><button class="slow" data-slow="${esc(c.en)}">🐢 Escuchar más lento</button>${opts}`,
     type:  `<div class="q">Escribe en inglés</div><div class="big">${esc(c.es)}</div><input class="inp" id="inp" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="…"><button class="check" id="btnCheck">Comprobar</button>`,
   }[t];
   ex.innerHTML = html + hint;
   ex.querySelectorAll('.spk').forEach(b => b.onclick = () => speak(b.dataset.say));
-  ex.querySelectorAll('.slow').forEach(b => b.onclick = () => speak(b.dataset.slow, 0.55));
+  ex.querySelectorAll('[data-slow]').forEach(b => b.onclick = () => speak(b.dataset.slow, 0.55));
   ex.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(list[+b.dataset.i], b));
   if (t === 'listen') setTimeout(() => speak(c.en), 300);
   if (t === 'type'){
@@ -116,6 +117,10 @@ function answer(v, btn){
     $('#fbTitle').textContent = 'Casi…';
     $('#fbText').innerHTML = `La respuesta era <b class="w">${esc(c[field])}</b> · ${sent}`;
   }
+  // Audio en la hoja de respuesta: palabra, palabra lenta y oración completa.
+  const fa = $('#fbAudio'), sentence = fullSent(c);
+  fa.innerHTML = `<button data-say="${esc(c.en)}">🔊 ${esc(c.en)}</button><button data-say="${esc(c.en)}" data-rate="0.55">🐢 Lento</button><button data-say="${esc(sentence)}" data-rate="0.8">💬 Oración</button>`;
+  fa.querySelectorAll('button').forEach(b => b.onclick = () => speak(b.dataset.say, b.dataset.rate ? +b.dataset.rate : undefined));
   if (t !== 'en2es') speak(c.en);
   save();
   setTimeout(() => $('#btnNext').focus(), 50);
@@ -144,6 +149,7 @@ function finish(early){
   const goalHit = addXP(L.xp);
   if (goalHit) S.seeds += CFG.goalBonus;
   save(); checkUnlocks(); renderTop();
+  const letters = checkLetters();
   const p = petDef(S.pet);
   $('#lprog').style.width = '100%'; $('#lcount').textContent = '';
   $('#ex').innerHTML = `<div class="done">
@@ -152,6 +158,7 @@ function finish(early){
     <p class="sub">${esc(petName(p.id))} ${perfect ? 'está dando saltos.' : 'aprendió contigo.'}</p>
     <div class="rew"><div><b>+${L.xp}</b>XP</div><div><b>+${L.seeds + bonus}</b>🌰 semillas</div><div><b>${L.correct}/${L.correct + L.wrong}</b>aciertos</div></div>
     ${perfect ? `<p class="bonus">Bono por sesión perfecta: +${CFG.perfectBonus} 🌰</p>` : ''}
+    ${letters.length ? `<p class="bonus">💌 ¡Llegó una carta! Búscala en la casa.</p>` : ''}
     ${goalHit ? `<p class="bonus">🔥 ¡Meta del día cumplida! +${CFG.goalBonus} 🌰 · Racha: ${S.streak} día${S.streak > 1 ? 's' : ''}</p>` : ''}
     <button class="cta" id="btnHome">Volver a la madriguera</button>
     <button class="cta warm" id="btnAgain">Otra ronda</button>

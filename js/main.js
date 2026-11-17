@@ -8,8 +8,11 @@ import { checkUnlocks } from './views/collection.js';
 import './views/shop.js';
 import './views/yard.js';
 import './views/settings.js';
+import { importFromHash } from './views/letters.js';
 
 load(); tick(); save(); checkUnlocks(); renderTop();
+importFromHash();
+window.addEventListener('hashchange', () => { if (importFromHash()) showView('home'); });
 $$('nav button').forEach(b => b.onclick = () => showView(b.dataset.v));
 showView('home');
 

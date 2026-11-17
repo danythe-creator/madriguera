@@ -7,6 +7,8 @@ import { SLOTS, decorDef, wallDef } from '../data/shop.js';
 import { speak } from '../speech.js';
 import { register, showView } from '../router.js';
 import { startLesson } from './lesson.js';
+import { unread } from '../letters.js';
+import { openLetter, checkLetters } from './letters.js';
 
 export function renderTop(){
   $('#streak').textContent = S.streak; $('#seeds').textContent = S.seeds;
@@ -58,7 +60,10 @@ function renderHome(){
   $('#petname').textContent = name; $('#petsp').textContent = p.sp;
   renderMeter();
   const h = new Date().getHours(); $('#win').classList.toggle('night', h < 7 || h >= 19);
-  $('#mood').textContent =
+  checkLetters();
+  const un = unread();
+  $('#letterBtn').hidden = !un.length; $('#letterCount').textContent = un.length > 1 ? un.length : '';
+  $('#mood').textContent = un.length ? `💌 ¡${name} te trae una carta de ${un[0].from || 'alguien especial'}! Toca el sobre.` :
     S.fullness < 30 ? `${name} tiene hambre… dale una semilla.` :
     due > 0 ? `${name} quiere repasar ${due} palabra${due > 1 ? 's' : ''}.` :
     `${name} está feliz. Buen momento para aprender algo nuevo.`;
@@ -86,3 +91,4 @@ $('#btnWord').onclick = () => {
 };
 $('#btnStudy').onclick = () => startLesson();
 $('#btnYard').onclick = () => showView('yard');
+$('#letterBtn').onclick = () => { const l = unread()[0]; if (l) openLetter(l); };

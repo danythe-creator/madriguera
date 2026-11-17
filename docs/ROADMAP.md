@@ -39,10 +39,11 @@ Público: principalmente una mujer de 22 años que ama a los roedores, pero la a
 - [x] Cuyos con variedades: tricolor, abisinio, peruano.
 - [x] Espacios comunes (patio, sala, cocina): las mascotas conviven, se visitan, duermen y comen juntas; tocar objetos enseña su nombre en inglés.
 - [ ] Hámsters con variedades (sirio, enano ruso, roborovski).
-- [ ] Más espacios comunes (recámara, jardín de invierno) y decorarlos.
+- [x] Recámara y Huerto (se abren con semillas) y 16 objetos para decorar los espacios comunes; las mascotas juegan con ellos.
 - [ ] Más especies (chinchilla, jerbo, degú, capibara…).
 - [ ] Golosinas en la tienda (yogur, fruta) con reacciones especiales.
 - [ ] Mascotas que reaccionan al estudio: aprenden "trucos" y frases nuevas según tu nivel.
 - [ ] Logros, misiones diarias/semanales y "protector de racha".
 - [ ] Recordatorios diarios (notificaciones de la PWA).
-- [ ] Mensajes sorpresa personalizables (para dedicatorias 💌).
+- [x] Cartas sorpresa: se escriben en la app, viajan en un enlace privado y aparecen al cumplir una condición (fecha, racha, palabras, XP, lecciones).
+- [x] Audio lento (🐢) visible en ejercicios y en la hoja de respuesta; tocar 🔊 dos veces repite más lento.
