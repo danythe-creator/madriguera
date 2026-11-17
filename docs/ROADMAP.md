@@ -37,22 +37,25 @@
 - [x] Diseño del formato de contenido v2 (lecciones con vocabulario + gramática + oraciones + diálogo). Ver `docs/CONTENIDO.md`.
 
 ## Fase B — Contenido A2 → B1 (lo más importante)
-- [ ] Examen de ubicación: como ya es A2, puede "saltar" lo que ya domina.
-- [ ] Currículo A2 completo y luego B1: ~40 unidades por nivel, cada una con un tema de gramática.
-- [ ] Ejercicios nuevos: ordenar palabras (banco de palabras), traducir oraciones, dictado, comprensión auditiva, emparejar contra reloj, completar diálogos, elegir la forma gramatical.
-- [ ] Repaso espaciado también de oraciones y estructuras, no solo palabras.
+- [x] Prueba de nivel (15 preguntas A1/A2/B1): salta el A1 o abre todo el A2 según el resultado.
+- [x] Motor de lecciones v2 y **primeras 5 unidades A2** (30 lecciones): rutina, pasado, restaurante, planes, comparativos.
+- [ ] Completar el A2 (~20 unidades más) y luego B1, cada unidad con un tema de gramática.
+- [x] Ejercicios nuevos: armar oraciones (banco de palabras), dictado, comprensión auditiva, parejas, responder en diálogos, elegir la forma gramatical, comprensión de lectura, hablar.
+- [ ] Parejas contra reloj y traducción escrita libre.
+- [x] Repaso espaciado también de oraciones, gramática, diálogos y lecturas; botón "Repasar" en la casa.
 - [ ] **Módulo para hispanohablantes:** falsos amigos (*embarrassed*, *actually*), calcos ("I have 22 years"), orden de adjetivos, preposiciones (*in/on/at*), pares mínimos (*ship/sheep*, *b/v*, *th*).
-- [ ] Explicaciones de gramática breves, en español, con ejemplos.
+- [x] Explicaciones de gramática breves, en español, con ejemplos con audio y "⚠️ Ojo" con el error típico del hispanohablante.
 
 ## Fase C — Escuchar y hablar
 - [ ] Audio natural pregenerado con Piper (mismo sonido en cualquier celular, sin internet).
-- [ ] "Repite después de mí" con reconocimiento de voz de Chrome Android (gratis, requiere internet): marca palabras mal pronunciadas.
+- [x] "Di en voz alta" con reconocimiento de voz de Chrome Android (gratis, requiere internet): marca en rojo las palabras que no se entendieron.
 - [ ] Ejercicios de comprensión con oraciones y diálogos completos.
 
 ## Fase D — Leer y medir
-- [ ] Historias graduadas de Manchis y Myel: audio, tocar palabra = traducción, preguntas de comprensión.
+- [x] Primeras lecturas de Manchis y Myel (una por unidad) con audio, traducción por oración y preguntas.
+- [ ] Más historias y tocar una palabra para ver su traducción.
 - [ ] Examen al final de cada nivel y **nivel MCER estimado** ("A2 · 60 %").
-- [ ] Progreso por habilidad: vocabulario, gramática, escuchar, hablar, leer, escribir.
+- [ ] Progreso por habilidad en pantalla (los datos ya se registran: vocabulario, gramática, escuchar, hablar, leer, escribir).
 
 ## Fase E — Motivación conectada al estudio
 - [ ] Misiones diarias por habilidad, logros, protector de racha.

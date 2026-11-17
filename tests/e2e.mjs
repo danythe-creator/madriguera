@@ -88,6 +88,34 @@ try {
     await page.waitForSelector('.paper .len');
   });
 
+  await step('hace la prueba de nivel y una lección A2 completa', async () => {
+    const dismissNews = async () => { await page.waitForTimeout(1700); if (await page.locator('#newsModal:not([hidden])').count()) await page.click('#newsClose'); };
+    await page.goto(URL_); await page.reload(); await dismissNews();
+    await page.click('nav button[data-v=units]');
+    await page.click('#btnPlacement');
+    for (let i = 0; i < 15; i++){ await page.click('#ex .opt[data-i="0"]'); await page.waitForTimeout(320); }
+    await page.waitForSelector('#ex .done');
+    // forzar nivel A2 para que la ruta quede abierta aunque las respuestas fueran al azar
+    await page.evaluate(() => { const s = JSON.parse(localStorage.getItem('madriguera.v2')); s.placement = { level: 'A2', skipA1: true, openA2: false, ts: Date.now() }; localStorage.setItem('madriguera.v2', JSON.stringify(s)); });
+    await page.goto(URL_); await page.reload(); await dismissNews();
+    await page.click('#btnStudy');
+    for (let n = 0; n < 60 && !(await page.locator('#ex .done').count()); n++){
+      if (await page.locator('#ex .cta').count()){ await page.click('#ex .cta'); continue; }
+      if (await page.locator('#skipSpeak').count()){ await page.click('#skipSpeak'); continue; }
+      if (await page.locator('#ex .match').count()){
+        for (const e of await page.locator('.tile.m[data-side=en]').all()){ const i = await e.getAttribute('data-i'); await e.click(); await page.click(`.tile.m[data-side=es][data-i="${i}"]`); }
+      } else if (await page.locator('#bank').count()){ await page.locator('#bank .tile').first().click(); await page.click('#btnCheck'); }
+      else if (await page.locator('#inp').count()){ await page.fill('#inp', 'wake up'); await page.click('#btnCheck'); }
+      else await page.click('#ex .opt[data-i="0"]');
+      await page.waitForSelector('#fb.show');
+      await page.click('#btnNext');
+    }
+    await page.waitForSelector('#ex .done');
+    const st = await page.evaluate(() => JSON.parse(localStorage.getItem('madriguera.v2')));
+    if (!st.lessons['a2-routine:l1']?.done) throw new Error('la lección A2 no quedó registrada');
+    if (!Object.keys(st.cards).some(k => k.startsWith('w:a2-routine:'))) throw new Error('no se programó el repaso de las palabras A2');
+  });
+
   if (errors.length) throw new Error('Errores en la consola:\n' + errors.join('\n'));
   console.log(`\nTodo bien: ${steps.length} pasos.`);
 } catch (e) {

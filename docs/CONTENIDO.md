@@ -16,7 +16,10 @@ Nivel (A2, B1)
      └─ Repaso de unidad (cuenta para el nivel MCER estimado)
 ```
 
-## Archivo por unidad: `content/a2/restaurante.json`
+## Archivo por unidad: `js/content/a2/restaurant.js`
+
+Cada unidad es un módulo JavaScript (`export default { … }`) con esta forma, y se registra en `js/content/index.js`.
+Así funciona sin internet y las pruebas pueden revisarlo directamente.
 
 ```json
 {
