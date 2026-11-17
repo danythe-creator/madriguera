@@ -2,7 +2,7 @@
 import { $, esc, toast, dayKeyOffset } from '../util.js';
 import { S, save, allCards, isLearned, isSeen, dueCards, resetAll, exportData, importData } from '../state.js';
 import { englishVoices, speak } from '../speech.js';
-import { register } from '../router.js';
+import { register, showView } from '../router.js';
 
 function renderSettings(){
   const all = allCards(), learned = all.filter(c => isLearned(c.key)).length, seen = all.filter(c => isSeen(c.key)).length;
@@ -53,3 +53,6 @@ $('#btnReset').onclick = () => {
   if (b.dataset.c){ resetAll(); location.reload(); }
   else { b.dataset.c = 1; b.textContent = '¿Seguro? Se borra todo. Toca otra vez'; setTimeout(() => { delete b.dataset.c; b.textContent = 'Reiniciar todo'; }, 4000); }
 };
+
+$('#btnInbox').onclick = () => showView('letters');
+$('#btnCompose').onclick = () => showView('compose');

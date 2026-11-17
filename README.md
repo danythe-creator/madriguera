@@ -33,6 +33,7 @@ js/data/units.js        ← CONTENIDO: unidades y palabras (edita aquí)
 js/data/config.js       mascotas (variedades y cómo se consiguen) y ajustes del juego
 js/data/shop.js         objetos de la tienda y colores de pared
 js/state.js             progreso guardado (localStorage) y migraciones
+js/letters.js           cartas sorpresa (condiciones y empaque en enlace)
 js/srs.js               repetición espaciada FSRS
 js/answers.js           revisión de respuestas (alternativas, errores de dedo)
 js/speech.js            voz en inglés

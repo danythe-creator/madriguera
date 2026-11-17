@@ -6,7 +6,7 @@
 import { $, $$, esc, pick, toast } from '../util.js';
 import { S, save, petName, spend } from '../state.js';
 import { petDef } from '../data/config.js';
-import { SCENES, PHRASES } from '../data/scenes.js';
+import { SCENES, PHRASES, YARD_DECOR } from '../data/scenes.js';
 import { petSVG } from '../petsvg.js';
 import { speak } from '../speech.js';
 import { register, showView } from '../router.js';
@@ -17,7 +17,10 @@ let actors = [], loop = null, selected = null, seed = null;
 
 const isNight = () => { const h = new Date().getHours(); return h < 7 || h >= 19; };
 const sceneOf = id => S.petScene[id] || 'patio';
-const current = () => SCENES.find(s => s.id === S.yardScene) || SCENES[0];
+export const sceneOpen = s => !s.price || S.owned.includes('scene_' + s.id);
+const current = () => SCENES.find(s => s.id === S.yardScene && sceneOpen(s)) || SCENES[0];
+/** Decoración comprada y activa en el escenario actual. */
+const decorHere = () => YARD_DECOR.filter(d => d.scene === current().id && S.owned.includes(d.id) && S.yardDecor[d.id] !== false);
 const rand = (a, b) => a + Math.random() * (b - a);
 const visible = () => !$('#view-yard').classList.contains('hidden');
 
@@ -80,8 +83,15 @@ function think(){
         setTimeout(() => { setState(a, 'idle'); setState(b, 'idle'); }, 1800);
       });
     }
-    else if (r < .65 + sleepy){ setState(a, 'sleepy'); a.busy = now + rand(4000, 8000); a.timer = setTimeout(() => setState(a, 'idle'), a.busy - now); }
-    else if (r < .9){ setState(a, 'happy'); a.busy = now + 1800; a.timer = setTimeout(() => setState(a, 'idle'), 1800); }
+    else if (r < .78 && decorHere().some(d => d.spot)){
+      const d = pick(decorHere().filter(d => d.spot));
+      moveTo(a, d.spot[0] + rand(-5, 5), d.spot[1] + rand(-2, 2), () => {
+        setState(a, 'happy'); hearts(a.x, a.y, '✨', 2);
+        a.busy = Date.now() + 1800; a.timer = setTimeout(() => setState(a, 'idle'), 1800);
+      });
+    }
+    else if (r < .78 + sleepy){ setState(a, 'sleepy'); a.busy = now + rand(4000, 8000); a.timer = setTimeout(() => setState(a, 'idle'), a.busy - now); }
+    else if (r < .92){ setState(a, 'happy'); a.busy = now + 1800; a.timer = setTimeout(() => setState(a, 'idle'), 1800); }
   }
 }
 function stop(){ clearInterval(loop); loop = null; actors.forEach(a => clearTimeout(a.timer)); }
@@ -91,10 +101,17 @@ function renderYard(){
   const sc = current(), night = isNight();
   $('#yardTabs').innerHTML = SCENES.map(s => {
     const n = S.unlocked.filter(id => sceneOf(id) === s.id).length;
-    return `<button data-s="${s.id}" class="${s.id === sc.id ? 'on' : ''}">${s.ico} ${s.name} <small>${n}</small></button>`;
+    const open = sceneOpen(s);
+    return `<button data-s="${s.id}" class="${s.id === sc.id ? 'on' : ''} ${open ? '' : 'locked'}"><span>${open ? s.ico : '🔒'}</span>${s.name}${open ? ` <small>${n}</small>` : ''}</button>`;
   }).join('');
-  $$('#yardTabs button').forEach(b => b.onclick = () => { S.yardScene = b.dataset.s; save(); renderYard(); });
-  $('#yardBg').innerHTML = `<svg viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice">${sc.svg(night)}</svg>`;
+  $$('#yardTabs button').forEach(b => b.onclick = () => {
+    const s = SCENES.find(x => x.id === b.dataset.s);
+    if (!sceneOpen(s)){ toast(`${s.ico} ${s.name}: desbloquéalo en la tienda por 🌰 ${s.price}`); return showView('shop'); }
+    S.yardScene = s.id; save(); renderYard();
+  });
+  $('#yardTabs .on')?.scrollIntoView({ inline: 'center', block: 'nearest' });
+  const decor = decorHere().map(d => `<g class="obj" data-en="${d.en}" data-es="${d.es}">${d.svg}</g>`).join('');
+  $('#yardBg').innerHTML = `<svg viewBox="0 0 400 440" preserveAspectRatio="xMidYMid slice">${sc.svg(night)}${decor}</svg>`;
   $('#yardFx').innerHTML = ''; $('#yardBubble').classList.remove('show');
 
   const stage = $('#yardPets'); stage.innerHTML = '';
@@ -132,9 +149,9 @@ function tapPet(a){
 function renderBar(a){
   const bar = $('#yardBar');
   if (!a){ bar.innerHTML = ''; bar.classList.remove('show'); return; }
-  const others = SCENES.filter(s => s.id !== current().id);
+  const others = SCENES.filter(s => s.id !== current().id && sceneOpen(s));
   bar.innerHTML = `<b>${esc(petName(a.id))}</b>
-    ${others.map(s => `<button data-to="${s.id}">${s.ico} A ${s.name.toLowerCase()}</button>`).join('')}
+    ${others.map(s => `<button data-to="${s.id}">${s.ico} ${s.name}</button>`).join('')}
     ${S.pet === a.id ? '<span class="home">🏠 Vive en tu casa</span>' : '<button data-home="1">🏠 A mi casa</button>'}`;
   bar.classList.add('show');
   bar.querySelectorAll('[data-to]').forEach(b => b.onclick = () => {
