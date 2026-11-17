@@ -136,7 +136,7 @@ register('yard', renderYard);
 
 function tapPet(a){
   selected = a;
-  const p = petDef(a.id), grp = p.group || 'other';
+  const p = petDef(a.id), grp = p.group || 'rat';
   const [en, es] = pick([...PHRASES.all, ...(PHRASES[grp] || []), ...(isNight() ? PHRASES.night : [])]);
   setState(a, 'happy'); a.busy = Date.now() + 1800;
   clearTimeout(a.timer); a.timer = setTimeout(() => { setState(a, 'idle'); if (selected === a) selected = null; }, 2500);

@@ -45,8 +45,9 @@ export const PET_SVG = {
       [[62,132],[80,150],[128,136],[140,152],[110,160],[72,160],[138,122]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="4" fill="${hood}" opacity=".5"/>`).join(''),
     siamese: `<ellipse cx="100" cy="160" rx="52" ry="22" fill="${v.point}" opacity=".18"/>`,
   }[pt] || '';
-  const headMarks = pt === 'hooded' ? `<path d="M100 54 q-7 18 0 34 q7 -16 0 -34z" fill="${fur}"/>`
-    : pt === 'husky' ? `<path d="M100 52 q-16 30 -26 58 q26 14 52 0 q-10 -28 -26 -58z" fill="${white}"/>` : '';
+  const spot = v.spot ? `<ellipse cx="100" cy="64" rx="8" ry="7" fill="#fffdf8"/>` : '';
+  const headMarks = spot + (pt === 'hooded' ? `<path d="M100 54 q-7 18 0 34 q7 -16 0 -34z" fill="${fur}"/>`
+    : pt === 'husky' ? `<path d="M100 52 q-16 30 -26 58 q26 14 52 0 q-10 -28 -26 -58z" fill="${white}"/>` : '');
   const rex = v.rex ? `<g fill="none" stroke="${curl}" stroke-width="2.5" stroke-linecap="round" opacity=".55">
       ${[[60,128],[84,118],[108,124],[132,120],[70,150],[96,146],[124,148],[146,138]].map(([x,y]) => `<path d="M${x} ${y} q4 -7 8 0 q4 7 8 0"/>`).join('')}</g>` : '';
   const rexHead = v.rex ? `<g fill="none" stroke="${mix(H,'#000000',.15)}" stroke-width="2.5" stroke-linecap="round" opacity=".6">
@@ -81,17 +82,43 @@ export const PET_SVG = {
      ${face(100,90,c)}
     </g>
    </g></svg>`; },
- hamster(){ const c={fur:'#e8a94a',light:'#fff1d6',blush:'#f0a0a0',nose:'#d98585',ear:'#f5c98a'}; return `
+ /* Hámster con variantes: v = { pattern, fur, light, cheek, dark }
+    pattern: syrian (sirio) | stripe (enano ruso, raya en la espalda) | robo (roborovski, cejas blancas)
+             panda (blanco y negro) | teddy (pelo largo) */
+ hamster(v = {}){
+  const pt = v.pattern || 'syrian', fur = v.fur || '#e8a94a', light = v.light || '#fff1d6';
+  const cheek = v.cheek || mix(fur, '#ffffff', .2), dark = v.dark || mix(fur, '#000000', .35), ear = v.ear || '#f5c98a';
+  const c = { blush:'#f0a0a0', nose:'#d98585', eye: v.eye };
+  const small = pt === 'robo' || pt === 'stripe';
+  const head = pt === 'panda' ? light : fur;
+  const fluff = pt === 'teddy'
+    ? `<g fill="${mix(fur,'#000000',.06)}">${[[40,140],[44,166],[60,184],[140,184],[156,166],[160,140],[50,116],[150,116]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="16"/>`).join('')}</g>` : '';
+  const fluffHead = pt === 'teddy'
+    ? `<g fill="${mix(fur,'#000000',.06)}">${[[52,104],[54,122],[148,104],[146,122],[86,54],[100,50],[114,54]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="11"/>`).join('')}</g>` : '';
+  const bodyMarks = pt === 'panda'
+    ? `<path d="M38 128 q10 -34 62 -36 q52 2 62 36 q-12 18 -62 18 q-50 0 -62 -18z" fill="${fur}"/>`
+    : pt === 'stripe' ? `<path d="M98 82 q-4 40 0 70 h4 q4 -30 0 -70z" fill="${dark}"/>` : '';
+  const headMarks = pt === 'stripe'
+    ? `<path d="M96 52 q4 -2 8 0 l-2 26 h-4 z" fill="${dark}"/>`
+    : pt === 'robo' ? `<ellipse cx="80" cy="74" rx="9" ry="5" fill="#fffaf0"/><ellipse cx="120" cy="74" rx="9" ry="5" fill="#fffaf0"/>`
+    : pt === 'panda' ? `<ellipse cx="68" cy="70" rx="16" ry="12" fill="${fur}" transform="rotate(-25 68 70)"/><ellipse cx="132" cy="70" rx="16" ry="12" fill="${fur}" transform="rotate(25 132 70)"/>` : '';
+  const sc = small ? 'transform="translate(100 186) scale(.9) translate(-100 -186)"' : '';
+  return `
   <svg class="pet" viewBox="0 0 200 200">
-   <g class="body">
-    <ellipse cx="100" cy="134" rx="64" ry="54" fill="${c.fur}"/><ellipse cx="100" cy="148" rx="42" ry="32" fill="${c.light}"/>
-    <ellipse cx="76" cy="180" rx="13" ry="7" fill="${c.ear}"/><ellipse cx="124" cy="180" rx="13" ry="7" fill="${c.ear}"/>
+   <g class="body" ${sc}>
+    ${fluff}
+    <ellipse cx="100" cy="134" rx="64" ry="54" fill="${pt === 'panda' ? light : fur}"/>
+    ${bodyMarks}
+    <ellipse cx="100" cy="150" rx="${pt === 'robo' ? 46 : 42}" ry="${pt === 'robo' ? 34 : 32}" fill="${light}"/>
+    <ellipse cx="76" cy="180" rx="13" ry="7" fill="${ear}"/><ellipse cx="124" cy="180" rx="13" ry="7" fill="${ear}"/>
     <g class="head">
-     <g class="earL"><circle cx="62" cy="62" r="17" fill="${c.fur}"/><circle cx="62" cy="62" r="9" fill="${c.ear}"/></g>
-     <g class="earR"><circle cx="138" cy="62" r="17" fill="${c.fur}"/><circle cx="138" cy="62" r="9" fill="${c.ear}"/></g>
-     <ellipse cx="100" cy="96" rx="54" ry="44" fill="${c.fur}"/>
-     <ellipse cx="66" cy="110" rx="20" ry="16" fill="#f3bd6a"/><ellipse cx="134" cy="110" rx="20" ry="16" fill="#f3bd6a"/>
-     <ellipse cx="100" cy="112" rx="22" ry="16" fill="${c.light}"/>
+     <g class="earL"><circle cx="62" cy="62" r="17" fill="${pt === 'panda' ? fur : head}"/><circle cx="62" cy="62" r="9" fill="${ear}"/></g>
+     <g class="earR"><circle cx="138" cy="62" r="17" fill="${pt === 'panda' ? fur : head}"/><circle cx="138" cy="62" r="9" fill="${ear}"/></g>
+     ${fluffHead}
+     <ellipse cx="100" cy="96" rx="54" ry="44" fill="${head}"/>
+     ${headMarks}
+     <ellipse cx="66" cy="110" rx="20" ry="16" fill="${pt === 'panda' ? '#f4f0ea' : cheek}"/><ellipse cx="134" cy="110" rx="20" ry="16" fill="${pt === 'panda' ? '#f4f0ea' : cheek}"/>
+     <ellipse cx="100" cy="112" rx="22" ry="16" fill="${light}"/>
      ${face(100,88,c)}
     </g>
    </g></svg>`; },

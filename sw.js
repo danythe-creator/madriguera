@@ -1,6 +1,6 @@
 // Service worker: permite usar la app sin internet.
 // Estrategia: red primero (para recibir siempre la versión nueva) y, si no hay conexión, la copia guardada.
-const CACHE = 'madriguera-v6';
+const CACHE = 'madriguera-v7';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
   'js/main.js', 'js/util.js', 'js/state.js', 'js/srs.js', 'js/speech.js', 'js/answers.js', 'js/letters.js', 'js/router.js', 'js/petsvg.js',

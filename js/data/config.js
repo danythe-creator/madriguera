@@ -10,7 +10,13 @@
    ===================================================================== */
 export const PETS = [
  // --- Ratas ---
- {id:'rat', name:'Canela', sp:'Rata hooded', svg:'rat', group:'rat', req:{xp:0},
+ {id:'rat', name:'Manchis', sp:'Rata', svg:'rat', group:'rat', req:{xp:0},
+  v:{pattern:'berkshire', hood:'#e8d3b4', ears:'dumbo', spot:true},
+  desc:'Beige clarito, pancita blanca y su manchita blanca en la frente.'},
+ {id:'mouse', name:'Myel', sp:'Rata', svg:'rat', group:'rat', req:{xp:0},
+  v:{pattern:'berkshire', hood:'#e8d3b4', ears:'dumbo'},
+  desc:'Igualita a Manchis, pero sin manchita. Inseparables.'},
+ {id:'rat_hooded', name:'Canela', sp:'Rata hooded', svg:'rat', group:'rat', req:{cost:30},
   v:{pattern:'hooded', fur:'#f7f2ea', hood:'#b07a52', ears:'dumbo'},
   desc:'Las ratas "hooded" tienen la cabeza y una línea en la espalda de color.'},
  {id:'rat_albino', name:'Nieve', sp:'Rata albina', svg:'rat', group:'rat', req:{cost:40},
@@ -54,11 +60,22 @@ export const PETS = [
  {id:'guinea_peru', name:'Fideo', sp:'Cuyo peruano', svg:'guinea', group:'guinea', req:{cost:90},
   v:{pattern:'peruvian', base:'#e9c98f', ear:'#d9a86a'},
   desc:'Su pelo puede crecer más de 30 cm. ¡Necesita peluquería!'},
- // --- Otros amigos ---
- {id:'hamster', name:'Mochi', sp:'Hámster', group:'other', req:{xp:450},
+ // --- Hámsters ---
+ {id:'hamster', name:'Mochi', sp:'Hámster sirio', svg:'hamster', group:'hamster', req:{xp:450},
+  v:{pattern:'syrian', fur:'#e8a94a', light:'#fff1d6', cheek:'#f3bd6a'},
   desc:'Guarda comida en sus cachetes para después.'},
- {id:'mouse', name:'Pip', sp:'Ratón', group:'other', req:{xp:0},
-  desc:'Pequeño, curioso y muy rápido.'},
+ {id:'hamster_russian', name:'Bolita', sp:'Hámster enano ruso', svg:'hamster', group:'hamster', req:{cost:50},
+  v:{pattern:'stripe', fur:'#b9b3ad', light:'#f7f3ee', dark:'#5b524c', ear:'#e8c8b8'},
+  desc:'Tiene una raya oscura en la espalda y en invierno se aclara.'},
+ {id:'hamster_robo', name:'Pulga', sp:'Hámster roborovski', svg:'hamster', group:'hamster', req:{cost:70},
+  v:{pattern:'robo', fur:'#e2b98a', light:'#fffaf0', ear:'#f0cfae'},
+  desc:'El más pequeño y veloz. Tiene "cejitas" blancas.'},
+ {id:'hamster_panda', name:'Chispa', sp:'Hámster panda', svg:'hamster', group:'hamster', req:{learned:60},
+  v:{pattern:'panda', fur:'#3d3532', light:'#fbf8f4', ear:'#e8c8b8'},
+  desc:'Un sirio blanco y negro, como un osito panda.'},
+ {id:'hamster_teddy', name:'Peluche', sp:'Hámster de pelo largo', svg:'hamster', group:'hamster', req:{cost:90},
+  v:{pattern:'teddy', fur:'#ead2a8', light:'#fff6e6', ear:'#f0cfae'},
+  desc:'También llamado "osito de peluche" por su pelo esponjoso.'},
 ];
 
 /** Texto de cómo se consigue una mascota. */
@@ -83,7 +100,7 @@ export const CFG = {
 
 /** Grupos de la colección, en orden de preferencia. */
 export const GROUPS = [
-  {id:'rat', name:'Ratas'}, {id:'rabbit', name:'Conejos'}, {id:'guinea', name:'Cuyos'}, {id:'other', name:'Otros amigos'},
+  {id:'rat', name:'Ratas'}, {id:'rabbit', name:'Conejos'}, {id:'guinea', name:'Cuyos'}, {id:'hamster', name:'Hámsters'},
 ];
 
 export const petDef = id => PETS.find(p => p.id === id) || PETS[0];
