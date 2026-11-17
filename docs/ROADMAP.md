@@ -1,50 +1,70 @@
 # Hoja de ruta
 
-Restricciones del proyecto: **sin presupuesto** y desarrollo en una PC con **4 GB de RAM** (Linux Mint XFCE).
-Por eso: cero dependencias, sin herramientas de compilación, hosting gratuito (GitHub Pages) y todo
-procesado en el dispositivo (sin servidores ni APIs de pago).
+## Contexto
+- **Usuaria principal:** mujer de 22 años, nivel **A2**, usa **Android** (Chrome). Ama a los roedores.
+- **Meta:** aprender inglés con una calidad comparable a Busuu o Duolingo. Mínimo **una lección de ~5 minutos al día**, sin tope: más tiempo = más avance.
+- **Restricciones:** sin presupuesto; desarrollo en Linux Mint XFCE con 4 GB de RAM.
+  → Cero dependencias en la app, sin compilación, hosting gratis (GitHub Pages), herramientas ligeras.
 
-Público: principalmente una mujer de 22 años que ama a los roedores, pero la app debe servirle a cualquiera.
+## Principios
+1. **Aprender primero, jugar después.** Las recompensas premian aprender (precisión, constancia, habilidades nuevas), no repetir lo fácil.
+2. **Lecciones cortas y completas.** Una lección ≈ 5 min ≈ 10–14 ejercicios que mezclan vocabulario, gramática, escuchar, leer, escribir y hablar.
+3. **Contenido revisado por una persona.** Las fuentes automáticas se usan como materia prima; todo se revisa antes de publicarse.
+4. **Nada se pierde.** El progreso se protege (almacenamiento persistente, respaldos, pruebas automáticas).
 
-## ✅ Fase 1 — Bases sólidas (v2)
-- [x] Separar el archivo único en módulos (HTML, CSS, JS, contenido).
-- [x] PWA: instalable, funciona sin internet.
-- [x] FSRS en lugar de SM-2, con migración del progreso de la v1.
-- [x] Fecha local (antes el día cambiaba a las 6 pm en México por usar UTC).
-- [x] Respuestas alternativas (thanks / thank you), artículos opcionales y tolerancia a errores de dedo.
-- [x] Palabras casi iguales en ambos idiomas (hámster, color) no se preguntan como traducción.
-- [x] Pantalla de progreso: estadísticas, XP de la semana, elección de voz y velocidad.
-- [x] Respaldo/restauración del progreso en un archivo.
-- [x] Atajos de teclado y botón de audio lento.
-- [x] 8 unidades A1 (96 palabras).
+## Fuentes libres (con atribución obligatoria)
+| Recurso | Uso | Licencia |
+|---|---|---|
+| NGSL / NGSL-Spoken | Lista de ~2,800 palabras frecuentes | CC BY-SA |
+| Tatoeba | Oraciones inglés–español reales | CC BY 2.0 FR (audio: varía por autor) |
+| Wiktionary (vía kaikki.org) | Definiciones, pronunciación IPA | CC BY-SA |
+| Piper TTS | Generar audio natural sin internet en la PC | MIT (cada voz tiene su licencia: elegir una que permita uso libre) |
 
-## Fase 2 — Contenido de verdad
-- [ ] Currículo por niveles del MCER (A1 → B1), ~1,500–2,000 palabras frecuentes.
-- [ ] Unidades de gramática: *to be*, presente simple, *there is/are*, pasado, futuro, preguntas, preposiciones.
-- [ ] Ejercicios nuevos: ordenar palabras, emparejar parejas (juego contra reloj), dictado de oraciones, diálogos.
-- [ ] Mini‑historias con los roedores (lectura graduada) que usan las palabras aprendidas.
-- [ ] Examen de ubicación al inicio.
+## ✅ Hecho
+- App modular, PWA sin internet, FSRS, fecha local, respuestas alternativas y errores de dedo.
+- 8 unidades A1 (98 palabras), audio con voz del sistema, audio lento.
+- 21 mascotas (ratas, conejos, cuyos, hámsters), Manchis y Myel, tienda, decoración, 5 espacios comunes.
+- Cartas sorpresa por enlace privado.
 
-## Fase 3 — Hablar y escuchar (aprovechando el hardware)
-- [ ] Práctica de pronunciación con reconocimiento de voz del navegador (Chrome/Android).
-- [ ] Opcional en equipos potentes: Whisper local en el navegador (WebGPU) para evaluar pronunciación sin internet.
-- [ ] Ejercicios de "repite después de mí" y de escuchar oraciones completas.
+## Fase A — Bases serias (en curso)
+- [x] Pruebas automáticas de la lógica (repaso, respuestas, cartas, integridad del contenido).
+- [x] Prueba de punta a punta con navegador real.
+- [x] Las pruebas corren solas en cada cambio (GitHub Actions, gratis en repos públicos).
+- [x] Almacenamiento persistente en Android (el navegador no borra el progreso por falta de espacio).
+- [x] Recordatorio de respaldo y registro de la fecha del último respaldo.
+- [x] Botón "Reportar error" en cada ejercicio; los reportes se exportan para corregir el contenido.
+- [x] Pantalla de "Novedades" al actualizar.
+- [x] Diseño del formato de contenido v2 (lecciones con vocabulario + gramática + oraciones + diálogo). Ver `docs/CONTENIDO.md`.
 
-## Fase 4 — Madriguera viva (motivación)
-- [x] Canela, la rata, como mascota inicial.
-- [x] 7 variedades de rata: hooded, albina, berkshire, siamesa, husky, rex, azul.
-- [x] Tienda con semillas: adopción de ratas, 16 objetos de decoración en 5 zonas del cuarto y 5 colores de pared.
-- [x] Renombrar mascotas. Bono de semillas al cumplir la meta del día.
-- [x] Conejos con variedades: enano, belier, holandés, cabeza de león.
-- [x] Cuyos con variedades: tricolor, abisinio, peruano.
-- [x] Espacios comunes (patio, sala, cocina): las mascotas conviven, se visitan, duermen y comen juntas; tocar objetos enseña su nombre en inglés.
-- [x] Hámsters con variedades: sirio, enano ruso, roborovski, panda, pelo largo.
-- [x] Manchis (mascota inicial, con manchita en la frente) y Myel, su compañera; Canela pasa a la tienda.
-- [x] Recámara y Huerto (se abren con semillas) y 16 objetos para decorar los espacios comunes; las mascotas juegan con ellos.
-- [ ] Más especies (chinchilla, jerbo, degú, capibara…).
-- [ ] Golosinas en la tienda (yogur, fruta) con reacciones especiales.
-- [ ] Mascotas que reaccionan al estudio: aprenden "trucos" y frases nuevas según tu nivel.
-- [ ] Logros, misiones diarias/semanales y "protector de racha".
-- [ ] Recordatorios diarios (notificaciones de la PWA).
-- [x] Cartas sorpresa: se escriben en la app, viajan en un enlace privado y aparecen al cumplir una condición (fecha, racha, palabras, XP, lecciones).
-- [x] Audio lento (🐢) visible en ejercicios y en la hoja de respuesta; tocar 🔊 dos veces repite más lento.
+## Fase B — Contenido A2 → B1 (lo más importante)
+- [ ] Examen de ubicación: como ya es A2, puede "saltar" lo que ya domina.
+- [ ] Currículo A2 completo y luego B1: ~40 unidades por nivel, cada una con un tema de gramática.
+- [ ] Ejercicios nuevos: ordenar palabras (banco de palabras), traducir oraciones, dictado, comprensión auditiva, emparejar contra reloj, completar diálogos, elegir la forma gramatical.
+- [ ] Repaso espaciado también de oraciones y estructuras, no solo palabras.
+- [ ] **Módulo para hispanohablantes:** falsos amigos (*embarrassed*, *actually*), calcos ("I have 22 years"), orden de adjetivos, preposiciones (*in/on/at*), pares mínimos (*ship/sheep*, *b/v*, *th*).
+- [ ] Explicaciones de gramática breves, en español, con ejemplos.
+
+## Fase C — Escuchar y hablar
+- [ ] Audio natural pregenerado con Piper (mismo sonido en cualquier celular, sin internet).
+- [ ] "Repite después de mí" con reconocimiento de voz de Chrome Android (gratis, requiere internet): marca palabras mal pronunciadas.
+- [ ] Ejercicios de comprensión con oraciones y diálogos completos.
+
+## Fase D — Leer y medir
+- [ ] Historias graduadas de Manchis y Myel: audio, tocar palabra = traducción, preguntas de comprensión.
+- [ ] Examen al final de cada nivel y **nivel MCER estimado** ("A2 · 60 %").
+- [ ] Progreso por habilidad: vocabulario, gramática, escuchar, hablar, leer, escribir.
+
+## Fase E — Motivación conectada al estudio
+- [ ] Misiones diarias por habilidad, logros, protector de racha.
+- [ ] Mascotas que aprenden "trucos" al subir de nivel; eventos de temporada (Navidad, San Valentín…) con vocabulario.
+- [ ] Recordatorio diario (notificaciones locales cuando el navegador lo permita).
+
+## Fase F — Conversación (opcional)
+- [ ] Diálogos con guion y ramas (restaurante, viaje, entrevista, presentarse).
+- [ ] Opcional: conversación con IA mediante la cuota gratuita de Cloudflare Workers AI (requiere cuenta; límites sujetos a cambio).
+
+## Herramientas para el desarrollador (ligeras en 4 GB)
+- Editor: Geany, Mousepad o VSCodium.
+- Probar en su celular: cable USB + `chrome://inspect` en Chrome de la PC (depuración remota).
+- Scripts de contenido: Python 3 (ya viene en Linux Mint).
+- Audio: Piper (consume poca RAM; se usa una vez para generar archivos).

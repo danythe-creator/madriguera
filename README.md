@@ -44,4 +44,14 @@ sw.js                   funcionamiento sin internet
 
 Al publicar una versión nueva, cambia `CACHE` en `sw.js` (por ejemplo `madriguera-v3`).
 
+## Pruebas automáticas
+
+Cada pull request corre las pruebas solo en GitHub (pestaña **Actions**): si algo se rompe, aparece una ✗ roja antes de fusionar.
+
+- `tests/logic.test.mjs` — repaso espaciado, revisión de respuestas, cartas sorpresa.
+- `tests/content.test.mjs` — integridad del contenido (palabras, mascotas, tienda, escenarios).
+- `tests/e2e.mjs` — recorre la app en un navegador real: lección, tienda, "Juntos", cartas.
+
+Para correrlas en tu PC (opcional, necesita Node.js): `npm test`.
+
 Ver [docs/ROADMAP.md](docs/ROADMAP.md) para lo que sigue.
