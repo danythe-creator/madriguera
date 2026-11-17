@@ -1,0 +1,13 @@
+{
+  "name": "madriguera",
+  "private": true,
+  "description": "La app no necesita instalar nada. Este archivo solo sirve para las pruebas automáticas.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "e2e": "node tests/e2e.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

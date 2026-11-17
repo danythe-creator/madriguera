@@ -386,3 +386,13 @@ nav button span{font-size:20px}
 .paper .laudio button,.paper .ltr{background:var(--paper2);color:var(--ink);padding:8px 12px;font-size:13px}
 .paper .ltr{margin:4px 0 10px;background:transparent;text-decoration:underline;color:var(--terra2);padding:4px 0}
 .paper .lfrom{text-align:right;font-weight:800;color:var(--terra2);margin-top:10px;font-size:16px}
+
+/* ---------- v6: reportes y novedades ---------- */
+.fb button.report{width:auto;margin:10px auto 0;display:block;background:transparent;box-shadow:none;color:var(--ink2);font-size:12px;padding:4px 8px;text-decoration:underline}
+.fb button.report:disabled{opacity:1;text-decoration:none}
+.news{width:100%;max-width:380px;background:var(--card);border-radius:22px;padding:22px 20px;box-shadow:0 20px 50px rgba(0,0,0,.35);max-height:80vh;overflow:auto;animation:envpop .4s cubic-bezier(.2,1.2,.4,1)}
+.news h2{font-size:26px}
+.news h3{font-family:'Baloo 2';font-size:17px;margin:12px 0 4px;color:var(--terra2)}
+.news h3 small{color:var(--ink2);font-weight:700;font-size:12px}
+.news ul{list-style:none}
+.news li{padding:4px 0;font-weight:700;font-size:14px;line-height:1.35}

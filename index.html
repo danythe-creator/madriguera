@@ -73,6 +73,7 @@
       <b id="fbTitle"></b><p id="fbText"></p>
       <div class="fbaudio" id="fbAudio"></div>
       <button id="btnNext">Continuar</button>
+      <button class="report" id="btnReport">⚑ Reportar un error</button>
     </div>
   </section>
 
@@ -149,12 +150,19 @@
         <button id="btnCompose">✍️ Escribir cartas</button>
       </div>
       <h3>Respaldo</h3>
-      <p class="note">El progreso se guarda solo en este dispositivo. Descarga un respaldo para pasarlo a otro.</p>
+      <p class="note">El progreso se guarda solo en este dispositivo. Descarga un respaldo para pasarlo a otro o por si algo falla.</p>
+      <p class="note" id="backupInfo"></p>
       <div class="actions">
         <button id="btnExport">⬇️ Descargar</button>
         <button id="btnImport">⬆️ Restaurar</button>
       </div>
       <input type="file" id="fileImport" accept="application/json,.json" hidden>
+      <h3>Ayúdanos a mejorar</h3>
+      <p class="note" id="reportInfo"></p>
+      <div class="actions">
+        <button id="btnSendReports">📤 Enviar reportes</button>
+        <button id="btnNews">✨ Novedades</button>
+      </div>
       <p class="note"><button class="reset" id="btnReset">Reiniciar todo</button></p>
     </div>
   </section>
@@ -167,6 +175,15 @@
     <button data-v="settings"><span>📈</span>Progreso</button>
   </nav>
   <div class="toast" id="toast"></div>
+
+  <!-- Novedades -->
+  <div class="lmodal" id="newsModal" hidden>
+    <div class="news">
+      <h2>✨ Novedades</h2>
+      <div id="newsBody"></div>
+      <button class="cta" id="newsClose">¡Genial!</button>
+    </div>
+  </div>
 
   <!-- Lector de cartas -->
   <div class="lmodal" id="letterModal" hidden>

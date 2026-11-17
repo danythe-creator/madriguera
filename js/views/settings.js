@@ -3,6 +3,7 @@ import { $, esc, toast, dayKeyOffset } from '../util.js';
 import { S, save, allCards, isLearned, isSeen, dueCards, resetAll, exportData, importData } from '../state.js';
 import { englishVoices, speak } from '../speech.js';
 import { register, showView } from '../router.js';
+import { showNews } from './news.js';
 
 function renderSettings(){
   const all = allCards(), learned = all.filter(c => isLearned(c.key)).length, seen = all.filter(c => isSeen(c.key)).length;
@@ -28,7 +29,28 @@ function renderSettings(){
     : '<option>Sin voces en inglés en este dispositivo</option>';
   $('#rate').value = S.settings.rate; $('#rateVal').textContent = S.settings.rate.toFixed(2) + '×';
 }
-register('settings', renderSettings);
+register('settings', () => { renderSettings(); renderBackupInfo(); renderReportInfo(); });
+
+async function renderBackupInfo(){
+  const days = S.lastBackup ? Math.floor((Date.now() - S.lastBackup) / 864e5) : null;
+  let txt = days === null ? '💾 Aún no has descargado ningún respaldo.' : `💾 Último respaldo: ${days === 0 ? 'hoy' : days === 1 ? 'ayer' : `hace ${days} días`}.`;
+  try { if (await navigator.storage?.persisted?.()) txt += ' 🛡️ Progreso protegido en este teléfono.'; } catch (e) {}
+  $('#backupInfo').textContent = txt;
+}
+function renderReportInfo(){
+  const n = S.reports.length;
+  $('#reportInfo').textContent = n ? `Tienes ${n} reporte${n > 1 ? 's' : ''} de errores por enviar.` : 'Si un ejercicio tiene un error, toca "⚑ Reportar" después de contestar.';
+  $('#btnSendReports').disabled = !n;
+}
+$('#btnSendReports').onclick = async () => {
+  const text = 'Reportes de Madriguera\n\n' + S.reports.map((r, i) =>
+    `${i + 1}. [${r.key} · ${r.type}] esperado: "${r.expected}" · respondió: "${r.answer}"${r.note ? ` · nota: ${r.note}` : ''}`).join('\n');
+  let sent = false;
+  try { if (navigator.share){ await navigator.share({ title: 'Reportes de Madriguera', text }); sent = true; } } catch (e) {}
+  if (!sent){ try { await navigator.clipboard.writeText(text); sent = true; toast('Reportes copiados 📋 Pégalos en un mensaje.'); } catch (e) {} }
+  if (sent && confirm('¿Ya los enviaste? Si aceptas, se borran de la lista.')){ S.reports = []; save(); renderReportInfo(); }
+};
+$('#btnNews').onclick = () => showNews(true);
 try { speechSynthesis.addEventListener('voiceschanged', () => { if (!$('#view-settings').classList.contains('hidden')) renderSettings(); }); } catch (e) {}
 
 $('#voice').onchange = e => { S.settings.voice = e.target.value; save(); speak('Hello! Nice to meet you.'); };
@@ -36,6 +58,7 @@ $('#rate').oninput = e => { S.settings.rate = +e.target.value; $('#rateVal').tex
 $('#rate').onchange = () => speak('The hamster is very happy.');
 
 $('#btnExport').onclick = () => {
+  S.lastBackup = Date.now(); save(); renderBackupInfo();
   const blob = new Blob([exportData()], { type: 'application/json' });
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
   a.download = `madriguera-respaldo-${new Date().toISOString().slice(0, 10)}.json`; a.click();

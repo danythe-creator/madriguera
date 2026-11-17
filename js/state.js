@@ -22,7 +22,10 @@ const fresh = () => ({
   yardScene: 'patio', // último espacio común visitado
   yardDecor: {},      // decoración de espacios comunes: id -> false si está guardada
   letters: [],        // cartas sorpresa recibidas (ver js/letters.js)
-  drafts: [], author: '',  // cartas que escribe quien usa este dispositivo para alguien más
+  drafts: [], author: '',
+  reports: [],        // errores reportados desde los ejercicios
+  lastBackup: null, lastBackupNag: null,  // fecha del último respaldo y del último recordatorio
+  seenVersion: null,  // última versión cuyas novedades ya se mostraron  // cartas que escribe quien usa este dispositivo para alguien más
   cards: {},          // "unidad:palabra" -> datos FSRS
   stats: { sessions: 0, answers: 0, correct: 0, days: {} },  // days: "AAAA-MM-DD" -> XP
   settings: { rate: 0.9, voice: null, sound: true },

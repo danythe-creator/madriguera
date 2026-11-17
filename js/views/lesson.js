@@ -93,7 +93,7 @@ function nextEx(){
 }
 
 function answer(v, btn){
-  const cur = L.cur; if (cur.done) return; cur.done = true;
+  const cur = L.cur; if (cur.done) return; cur.done = true; cur.answer = String(v ?? '');
   const { c, t, field } = cur;
   const res = check(c, field, v);
   const first = !L.answered.has(c.key);
@@ -121,6 +121,7 @@ function answer(v, btn){
   const fa = $('#fbAudio'), sentence = fullSent(c);
   fa.innerHTML = `<button data-say="${esc(c.en)}">🔊 ${esc(c.en)}</button><button data-say="${esc(c.en)}" data-rate="0.55">🐢 Lento</button><button data-say="${esc(sentence)}" data-rate="0.8">💬 Oración</button>`;
   fa.querySelectorAll('button').forEach(b => b.onclick = () => speak(b.dataset.say, b.dataset.rate ? +b.dataset.rate : undefined));
+  $('#btnReport').textContent = '⚑ Reportar un error'; $('#btnReport').disabled = false;
   if (t !== 'en2es') speak(c.en);
   save();
   setTimeout(() => $('#btnNext').focus(), 50);
@@ -167,3 +168,14 @@ function finish(early){
   $('#btnAgain').onclick = () => startLesson();
   L = null;
 }
+
+// Reportar un error en el ejercicio actual (se guarda y se exporta desde Progreso).
+$('#btnReport').onclick = () => {
+  const cur = L?.cur; if (!cur) return;
+  const note = prompt('¿Qué está mal? (opcional: por ejemplo "la traducción no es correcta")', '');
+  if (note === null) return;
+  S.reports.push({ ts: new Date().toISOString(), key: cur.c.key, type: cur.t, expected: cur.c[cur.field],
+    answer: cur.answer, sentence: cur.c.s, note: note.trim().slice(0, 300) });
+  save();
+  $('#btnReport').textContent = '✓ Reporte guardado. ¡Gracias!'; $('#btnReport').disabled = true;
+};
