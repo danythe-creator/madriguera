@@ -473,3 +473,8 @@ nav button span{font-size:20px}
 #btnReview{margin-top:8px}
 .toast{white-space:normal;width:max-content;max-width:calc(100% - 32px);text-align:center}
 #app{overflow-x:clip}
+
+/* ---------- pantalla final: botones separados ---------- */
+.ex .done .cta{margin-top:20px}
+.ex .done .cta + .cta{margin-top:20px}
+.ex .done .bonus + .cta,.ex .done .rew + .cta{margin-top:24px}
