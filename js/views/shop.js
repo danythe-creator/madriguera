@@ -22,7 +22,7 @@ function renderShop(){
     const un = S.unlocked.includes(p.id);
     return `<div class="scard">
       <div class="prev pet">${petSVG(p)}</div><b>${esc(p.name)}</b><small>${esc(p.sp)}</small>
-      ${un ? '<button class="owned" disabled>Adoptada ✓</button>' : buyBtn('pet', p.id, p.req.cost)}</div>`;
+      ${un ? '<button class="owned" disabled>Adoptado ✓</button>' : buyBtn('pet', p.id, p.req.cost)}</div>`;
   }).join('');
 
   const decorBySlot = Object.entries(SLOTS).map(([slot, label]) => {
@@ -45,7 +45,7 @@ function renderShop(){
   }).join('');
 
   $('#shop').innerHTML = `
-    <h3>Ratas en adopción</h3><div class="sgrid">${petCards}</div>
+    <h3>Adopción</h3><div class="sgrid">${petCards}</div>
     ${decorBySlot}
     <h3>Color de pared</h3><div class="sgrid">${walls}</div>`;
 

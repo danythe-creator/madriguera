@@ -95,31 +95,79 @@ export const PET_SVG = {
      ${face(100,88,c)}
     </g>
    </g></svg>`; },
- guinea(){ const c={fur:'#8a5a3a',light:'#f6ead8',blush:'#f0a0a0',nose:'#d98585',ear:'#c98a6a'}; return `
+ /* Cuyo con variantes: v = { pattern, base, ear, spots:[color1,color2], hair }
+    pattern: tricolor | abyssinian (remolinos) | peruvian (pelo largo) */
+ guinea(v = {}){
+  const base = v.base || '#8a5a3a', pt = v.pattern || 'self', ear = v.ear || '#c98a6a';
+  const [s1, s2] = v.spots || ['#d98a3d', '#3d3532'];
+  const c = { blush:'#f0a0a0', nose:'#d98585', eye: v.eye };
+  const dark = mix(base, '#000000', .18);
+  const bodyMarks = {
+    tricolor: `<path d="M34 128 q10 -30 44 -28 q-6 30 6 60 q-34 6 -50 -32z" fill="${s1}"/>
+               <path d="M124 104 q34 -4 44 26 q4 26 -20 40 q-8 -36 -24 -66z" fill="${s2}"/>`,
+    abyssinian: [[50,124],[100,150],[150,124],[76,166],[126,166]].map(([x,y]) =>
+      `<path d="M${x} ${y} m-12 0 a12 12 0 1 1 12 12 a7 7 0 1 1 -6 -9" fill="none" stroke="${dark}" stroke-width="3" stroke-linecap="round" opacity=".7"/>`).join(''),
+    peruvian: '',
+  }[pt] || '';
+  // contorno "despeinado" para el abisinio
+  const spiky = pt === 'abyssinian'
+    ? `<path d="M30 136 l-8 -10 l12 -2 l-4 -14 l14 4 l2 -14 l12 10 l8 -12 l8 14 l12 -10 l4 14 l12 -8 l2 14 l14 -4 l-2 14 l12 4 l-8 12 l10 8 l-60 20 z" fill="${base}"/>` : '';
+  const longHair = pt === 'peruvian'
+    ? `<path d="M30 120 q-10 40 -2 74 q10 -8 16 2 q8 -10 16 0 q8 -10 16 0 q8 -10 16 0 q8 -10 16 0 q8 -10 16 0 q8 -10 16 0 q6 -10 14 -2 q8 -34 -2 -74 z" fill="${base}"/>
+       <g stroke="${dark}" stroke-width="2" opacity=".45" fill="none" stroke-linecap="round">
+        <path d="M46 130 q-4 30 2 58"/><path d="M70 136 q-2 28 2 52"/><path d="M100 140 v48"/><path d="M130 136 q2 28 -2 52"/><path d="M154 130 q4 30 -2 58"/></g>` : '';
+  const headMarks = pt === 'tricolor'
+    ? `<path d="M48 92 q2 -34 38 -38 q-4 24 -20 50 q-12 0 -18 -12z" fill="${s1}"/><path d="M118 56 q30 4 34 34 q-14 4 -26 -6 q-8 -14 -8 -28z" fill="${s2}"/>`
+    : pt === 'abyssinian' ? `<path d="M76 62 l6 -14 l8 10 l10 -14 l10 14 l8 -10 l6 14 z" fill="${base}"/><path d="M100 62 m-8 0 a8 8 0 1 1 8 8" fill="none" stroke="${dark}" stroke-width="3" opacity=".6"/>`
+    : pt === 'peruvian' ? `<path d="M50 84 q10 -34 50 -34 q40 0 50 34 q-12 -10 -24 -6 q-8 -10 -26 -8 q-18 -2 -26 8 q-12 -4 -24 6z" fill="${mix(base,'#ffffff',.12)}"/>`
+    : `<path d="M100 56 q-30 0 -42 30 q10 -8 42 -8 z" fill="${v.light || '#f6ead8'}"/>`;
+  return `
   <svg class="pet" viewBox="0 0 200 200">
+   <defs><clipPath id="gpBody"><ellipse cx="100" cy="136" rx="70" ry="50"/></clipPath><clipPath id="gpHead"><ellipse cx="100" cy="98" rx="52" ry="42"/></clipPath></defs>
    <g class="body">
-    <ellipse cx="100" cy="136" rx="70" ry="50" fill="${c.fur}"/>
-    <ellipse cx="128" cy="140" rx="30" ry="34" fill="${c.light}"/>
-    <ellipse cx="72" cy="182" rx="12" ry="6" fill="${c.ear}"/><ellipse cx="128" cy="182" rx="12" ry="6" fill="${c.ear}"/>
+    ${spiky}
+    <ellipse cx="100" cy="136" rx="70" ry="50" fill="${base}" stroke="${dark}" stroke-opacity=".12" stroke-width="2"/>
+    <g clip-path="url(#gpBody)">${bodyMarks}</g>${longHair}
+    <ellipse cx="72" cy="184" rx="12" ry="6" fill="${ear}"/><ellipse cx="128" cy="184" rx="12" ry="6" fill="${ear}"/>
     <g class="head">
-     <g class="earL"><ellipse cx="58" cy="72" rx="14" ry="10" fill="${c.ear}" transform="rotate(-20 58 72)"/></g>
-     <g class="earR"><ellipse cx="142" cy="72" rx="14" ry="10" fill="${c.ear}" transform="rotate(20 142 72)"/></g>
-     <ellipse cx="100" cy="98" rx="52" ry="42" fill="${c.fur}"/>
-     <path d="M100 56 q-30 0 -42 30 q10 -8 42 -8 z" fill="${c.light}"/>
+     <g class="earL"><ellipse cx="56" cy="74" rx="15" ry="10" fill="${ear}" transform="rotate(-25 56 74)"/></g>
+     <g class="earR"><ellipse cx="144" cy="74" rx="15" ry="10" fill="${ear}" transform="rotate(25 144 74)"/></g>
+     <ellipse cx="100" cy="98" rx="52" ry="42" fill="${base}" stroke="${dark}" stroke-opacity=".12" stroke-width="2"/>
+     ${pt === 'tricolor' ? `<g clip-path="url(#gpHead)">${headMarks}</g>` : headMarks}
+     <ellipse cx="100" cy="114" rx="22" ry="15" fill="${mix(base,'#ffffff',.22)}"/>
      ${face(100,92,c)}
     </g>
    </g></svg>`; },
- rabbit(){ const c={fur:'#d9cfc3',light:'#fbf7f1',blush:'#f3a7b8',nose:'#e88aa0',ear:'#f3b8c4'}; return `
+ /* Conejo con variantes: v = { fur, light, ears, pattern, mane }
+    ears: up | lop (belier, caídas)     pattern: solid | dutch (holandés) | lion (melena) */
+ rabbit(v = {}){
+  const fur = v.fur || '#d9cfc3', light = v.light || '#fbf7f1', pt = v.pattern || 'solid', white = '#fbf8f4';
+  const inner = '#f3b8c4', c = { blush:'#f3a7b8', nose:'#e88aa0', eye: v.eye };
+  const belly = pt === 'dutch' ? white : light;
+  const ears = v.ears === 'lop'
+    ? `<g class="earL"><ellipse cx="50" cy="108" rx="16" ry="40" fill="${fur}" transform="rotate(14 50 108)"/><ellipse cx="52" cy="110" rx="8" ry="30" fill="${inner}" transform="rotate(14 52 110)"/></g>
+       <g class="earR"><ellipse cx="150" cy="108" rx="16" ry="40" fill="${fur}" transform="rotate(-14 150 108)"/><ellipse cx="148" cy="110" rx="8" ry="30" fill="${inner}" transform="rotate(-14 148 110)"/></g>`
+    : `<g class="earL"><ellipse cx="78" cy="30" rx="14" ry="36" fill="${fur}" transform="rotate(-8 78 62)"/><ellipse cx="78" cy="32" rx="7" ry="26" fill="${inner}" transform="rotate(-8 78 62)"/></g>
+       <g class="earR"><ellipse cx="122" cy="30" rx="14" ry="36" fill="${fur}" transform="rotate(8 122 62)"/><ellipse cx="122" cy="32" rx="7" ry="26" fill="${inner}" transform="rotate(8 122 62)"/></g>`;
+  const mane = pt === 'lion'
+    ? `<g fill="${v.mane || mix(fur,'#ffffff',.25)}">${Array.from({length:16}, (_, i) => {
+        const a = i / 16 * Math.PI * 2, x = 100 + Math.cos(a) * 50, y = 98 + Math.sin(a) * 42;
+        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="15"/>`; }).join('')}</g>` : '';
+  const headMarks = pt === 'dutch' ? `<path d="M100 58 q-16 30 -24 58 q24 18 48 0 q-8 -28 -24 -58z" fill="${white}"/>` : '';
+  const lopFirst = v.ears === 'lop';
+  return `
   <svg class="pet" viewBox="0 0 200 200">
-   <circle cx="150" cy="160" r="12" fill="${c.light}"/>
+   <circle cx="152" cy="162" r="13" fill="${light}"/>
    <g class="body">
-    <ellipse cx="100" cy="136" rx="56" ry="50" fill="${c.fur}"/><ellipse cx="100" cy="150" rx="34" ry="28" fill="${c.light}"/>
-    <ellipse cx="78" cy="180" rx="13" ry="7" fill="${c.ear}"/><ellipse cx="122" cy="180" rx="13" ry="7" fill="${c.ear}"/>
+    <ellipse cx="100" cy="138" rx="58" ry="50" fill="${fur}"/><ellipse cx="100" cy="152" rx="38" ry="30" fill="${belly}"/>
+    <ellipse cx="78" cy="182" rx="14" ry="7" fill="${pt === 'dutch' ? white : inner}"/><ellipse cx="122" cy="182" rx="14" ry="7" fill="${pt === 'dutch' ? white : inner}"/>
     <g class="head">
-     <g class="earL"><ellipse cx="78" cy="30" rx="14" ry="36" fill="${c.fur}"/><ellipse cx="78" cy="32" rx="7" ry="26" fill="${c.ear}"/></g>
-     <g class="earR"><ellipse cx="122" cy="30" rx="14" ry="36" fill="${c.fur}"/><ellipse cx="122" cy="32" rx="7" ry="26" fill="${c.ear}"/></g>
-     <ellipse cx="100" cy="98" rx="48" ry="40" fill="${c.fur}"/>
+     ${mane}${lopFirst ? '' : ears}
+     <ellipse cx="100" cy="98" rx="48" ry="40" fill="${fur}"/>
+     ${headMarks}
+     <ellipse cx="100" cy="112" rx="20" ry="14" fill="${pt === 'dutch' ? white : mix(fur,'#ffffff',.3)}"/>
      ${face(100,92,c)}
+     ${lopFirst ? ears : ''}
     </g>
    </g></svg>`; },
 };

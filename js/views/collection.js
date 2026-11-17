@@ -1,7 +1,7 @@
 // ROEDORES: colección de mascotas (ratas primero), elegir quién vive en casa y ponerles nombre.
 import { $, $$, esc, toast } from '../util.js';
 import { S, save, petName, learnedCount } from '../state.js';
-import { PETS, petDef, reqText } from '../data/config.js';
+import { PETS, GROUPS, petDef, reqText } from '../data/config.js';
 import { petSVG } from '../petsvg.js';
 import { register, showView } from '../router.js';
 
@@ -31,11 +31,10 @@ function card(p){
 function renderPets(){
   const have = g => PETS.filter(p => p.group === g && S.unlocked.includes(p.id)).length;
   const total = g => PETS.filter(p => p.group === g).length;
-  $('#pets').innerHTML = `
-    <h3 class="ghead">Ratas <span>${have('rat')}/${total('rat')}</span></h3>
-    <div class="grid">${PETS.filter(p => p.group === 'rat').map(card).join('')}</div>
-    <h3 class="ghead">Otros amigos <span>${have('other')}/${total('other')}</span></h3>
-    <div class="grid">${PETS.filter(p => p.group === 'other').map(card).join('')}</div>`;
+  $('#pets').innerHTML = `<button class="cta together" id="btnTogether">🌳 Verlos a todos juntos</button>` +
+    GROUPS.map(g => `<h3 class="ghead">${g.name} <span>${have(g.id)}/${total(g.id)}</span></h3>
+    <div class="grid">${PETS.filter(p => p.group === g.id).map(card).join('')}</div>`).join('');
+  $('#btnTogether').onclick = () => showView('yard');
   $$('.pcard button[data-p]').forEach(b => b.onclick = () => {
     S.pet = b.dataset.p; save(); renderPets(); toast(`${petName(S.pet)} ahora vive en la casa.`);
   });

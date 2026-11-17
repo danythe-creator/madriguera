@@ -5,7 +5,7 @@ import { CFG, petDef } from '../data/config.js';
 import { petSVG } from '../petsvg.js';
 import { SLOTS, decorDef, wallDef } from '../data/shop.js';
 import { speak } from '../speech.js';
-import { register } from '../router.js';
+import { register, showView } from '../router.js';
 import { startLesson } from './lesson.js';
 
 export function renderTop(){
@@ -85,3 +85,4 @@ $('#btnWord').onclick = () => {
   const w = pick(pool); speak(w.en); bubble(`${esc(w.en)}<small>${esc(w.es)}</small>`, 3200); setPetState('happy', 1400);
 };
 $('#btnStudy').onclick = () => startLesson();
+$('#btnYard').onclick = () => showView('yard');

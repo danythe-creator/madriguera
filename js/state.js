@@ -18,6 +18,8 @@ const fresh = () => ({
   owned: ['shelf', 'wheel', 'cream'],              // objetos de la tienda comprados
   decor: { wall: 'shelf', right: 'wheel' },        // zona del cuarto -> objeto
   wallTheme: 'cream',
+  petScene: {},       // mascota -> espacio común donde vive (patio por defecto)
+  yardScene: 'patio', // último espacio común visitado
   cards: {},          // "unidad:palabra" -> datos FSRS
   stats: { sessions: 0, answers: 0, correct: 0, days: {} },  // days: "AAAA-MM-DD" -> XP
   settings: { rate: 0.9, voice: null, sound: true },

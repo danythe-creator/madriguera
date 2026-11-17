@@ -35,7 +35,11 @@ Público: principalmente una mujer de 22 años que ama a los roedores, pero la a
 - [x] 7 variedades de rata: hooded, albina, berkshire, siamesa, husky, rex, azul.
 - [x] Tienda con semillas: adopción de ratas, 16 objetos de decoración en 5 zonas del cuarto y 5 colores de pared.
 - [x] Renombrar mascotas. Bono de semillas al cumplir la meta del día.
-- [ ] Rediseñar conejo, cuyo y hámster, con variedades (prioridad: conejos → cuyos → hámsters).
+- [x] Conejos con variedades: enano, belier, holandés, cabeza de león.
+- [x] Cuyos con variedades: tricolor, abisinio, peruano.
+- [x] Espacios comunes (patio, sala, cocina): las mascotas conviven, se visitan, duermen y comen juntas; tocar objetos enseña su nombre en inglés.
+- [ ] Hámsters con variedades (sirio, enano ruso, roborovski).
+- [ ] Más espacios comunes (recámara, jardín de invierno) y decorarlos.
 - [ ] Más especies (chinchilla, jerbo, degú, capibara…).
 - [ ] Golosinas en la tienda (yogur, fruta) con reacciones especiales.
 - [ ] Mascotas que reaccionan al estudio: aprenden "trucos" y frases nuevas según tu nivel.

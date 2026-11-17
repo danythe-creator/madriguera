@@ -1,11 +1,11 @@
 // Service worker: permite usar la app sin internet.
 // Estrategia: red primero (para recibir siempre la versión nueva) y, si no hay conexión, la copia guardada.
-const CACHE = 'madriguera-v4';
+const CACHE = 'madriguera-v5';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
   'js/main.js', 'js/util.js', 'js/state.js', 'js/srs.js', 'js/speech.js', 'js/answers.js', 'js/router.js', 'js/petsvg.js',
-  'js/data/units.js', 'js/data/config.js', 'js/data/shop.js',
-  'js/views/home.js', 'js/views/units.js', 'js/views/lesson.js', 'js/views/collection.js', 'js/views/shop.js', 'js/views/settings.js',
+  'js/data/units.js', 'js/data/config.js', 'js/data/shop.js', 'js/data/scenes.js',
+  'js/views/home.js', 'js/views/units.js', 'js/views/lesson.js', 'js/views/collection.js', 'js/views/shop.js', 'js/views/yard.js', 'js/views/settings.js',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
 ];
 

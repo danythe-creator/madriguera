@@ -31,11 +31,30 @@ export const PETS = [
  {id:'rat_blue', name:'Mora', sp:'Rata azul', svg:'rat', group:'rat', req:{learned:50},
   v:{pattern:'solid', hood:'#7d8aa3', ears:'dumbo'},
   desc:'"Azul" es un gris azulado muy buscado por los criadores.'},
- // --- Otros roedores (y una invitada) ---
- {id:'rabbit', name:'Lupe', sp:'Conejo · invitada', group:'other', req:{xp:150},
+ // --- Conejos (lagomorfos, pero aquí son familia) ---
+ {id:'rabbit', name:'Lupe', sp:'Conejo enano', svg:'rabbit', group:'rabbit', req:{xp:150},
+  v:{fur:'#d9cfc3', ears:'up'},
   desc:'Lagomorfa, no roedora… pero no le digas.'},
- {id:'guinea', name:'Tuna', sp:'Cuyo', group:'other', req:{xp:300},
+ {id:'rabbit_lop', name:'Bombón', sp:'Conejo belier', svg:'rabbit', group:'rabbit', req:{cost:70},
+  v:{fur:'#e7c39a', light:'#fff4e4', ears:'lop'},
+  desc:'Los belier tienen las orejas caídas a los lados de la cara.'},
+ {id:'rabbit_dutch', name:'Dominó', sp:'Conejo holandés', svg:'rabbit', group:'rabbit', req:{learned:35},
+  v:{fur:'#3d3532', light:'#5a504c', ears:'up', pattern:'dutch'},
+  desc:'El holandés tiene la cara y el pecho blancos, como un antifaz.'},
+ {id:'rabbit_lion', name:'Melena', sp:'Conejo cabeza de león', svg:'rabbit', group:'rabbit', req:{cost:100},
+  v:{fur:'#c98f5a', light:'#f3dcc0', ears:'up', pattern:'lion', mane:'#e2b27e'},
+  desc:'Tiene una melena alrededor de la cabeza, como un pequeño león.'},
+ // --- Cuyos ---
+ {id:'guinea', name:'Tuna', sp:'Cuyo tricolor', svg:'guinea', group:'guinea', req:{xp:300},
+  v:{pattern:'tricolor', base:'#fbf6ee', ear:'#e8b48a', spots:['#d98a3d','#3d3532']},
   desc:'Los cuyos "hacen popcorn": saltan de felicidad.'},
+ {id:'guinea_aby', name:'Remolino', sp:'Cuyo abisinio', svg:'guinea', group:'guinea', req:{cost:60},
+  v:{pattern:'abyssinian', base:'#a0703f', ear:'#7f5435'},
+  desc:'El pelo del abisinio forma remolinos llamados "rosetas".'},
+ {id:'guinea_peru', name:'Fideo', sp:'Cuyo peruano', svg:'guinea', group:'guinea', req:{cost:90},
+  v:{pattern:'peruvian', base:'#e9c98f', ear:'#d9a86a'},
+  desc:'Su pelo puede crecer más de 30 cm. ¡Necesita peluquería!'},
+ // --- Otros amigos ---
  {id:'hamster', name:'Mochi', sp:'Hámster', group:'other', req:{xp:450},
   desc:'Guarda comida en sus cachetes para después.'},
  {id:'mouse', name:'Pip', sp:'Ratón', group:'other', req:{xp:0},
@@ -61,5 +80,10 @@ export const CFG = {
   unlockUnitAt:8,     // palabras aprendidas para abrir la siguiente unidad
   retention:0.9,      // retención objetivo del algoritmo FSRS
 };
+
+/** Grupos de la colección, en orden de preferencia. */
+export const GROUPS = [
+  {id:'rat', name:'Ratas'}, {id:'rabbit', name:'Conejos'}, {id:'guinea', name:'Cuyos'}, {id:'other', name:'Otros amigos'},
+];
 
 export const petDef = id => PETS.find(p => p.id === id) || PETS[0];
