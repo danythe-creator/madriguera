@@ -63,6 +63,8 @@ export const UNITS = [
   {en:'pig',es:'cerdo',s:'The ___ is pink.'},
   {en:'duck',es:'pato',s:'The ___ swims in the lake.'},
   {en:'turtle',es:'tortuga',s:'The ___ is very slow.',alt:['tortoise']},
+  {en:'rat',es:'rata',s:'My pet ___ is very smart.'},
+  {en:'guinea pig',es:'cuyo',s:'The ___ says "wheek wheek"!'},
  ]},
  { id:'colors', name:'Colores', ico:'🎨', lvl:'A1', words:[
   {en:'red',es:'rojo',s:'The apple is ___.'},

@@ -12,6 +12,23 @@ function face(x, eyeY, c){ // ojos, cachetes, nariz, boca, bigotes
    <path d="M${x-14} ${eyeY+18} l-26 -4"/><path d="M${x-14} ${eyeY+22} l-26 4"/><path d="M${x+14} ${eyeY+18} l26 -4"/><path d="M${x+14} ${eyeY+22} l26 4"/></g>`;
 }
 export const PET_SVG = {
+ rat(){ const c={fur:'#f7f2ea',hood:'#b07a52',hood2:'#c08b62',blush:'#f3a7b8',nose:'#e88aa0',ear:'#f5b8bf',tail:'#eab0b0'}; return `
+  <svg class="pet" viewBox="0 0 200 200">
+   <path class="tail" d="M152 162 q50 10 38 -38 q-6 -22 -24 -26" fill="none" stroke="${c.tail}" stroke-width="9" stroke-linecap="round"/>
+   <g class="body">
+    <ellipse cx="100" cy="138" rx="66" ry="48" fill="${c.fur}"/>
+    <ellipse cx="100" cy="114" rx="44" ry="26" fill="${c.hood}"/>
+    <path d="M100 112 q-8 30 0 62 q8 -32 0 -62z" fill="${c.hood}" opacity=".85"/>
+    <ellipse cx="74" cy="182" rx="13" ry="7" fill="${c.ear}"/><ellipse cx="126" cy="182" rx="13" ry="7" fill="${c.ear}"/>
+    <g class="head">
+     <g class="earL"><circle cx="54" cy="84" r="25" fill="${c.hood}"/><circle cx="54" cy="84" r="16" fill="${c.ear}"/></g>
+     <g class="earR"><circle cx="146" cy="84" r="25" fill="${c.hood}"/><circle cx="146" cy="84" r="16" fill="${c.ear}"/></g>
+     <ellipse cx="100" cy="90" rx="46" ry="38" fill="${c.hood}"/>
+     <ellipse cx="100" cy="110" rx="27" ry="20" fill="${c.hood2}"/>
+     <path d="M100 54 q-7 18 0 34 q7 -16 0 -34z" fill="${c.fur}"/>
+     ${face(100,86,c)}
+    </g>
+   </g></svg>`; },
  mouse(){ const c={fur:'#9c9cab',light:'#dedee6',blush:'#f3a7b8',nose:'#e88aa0',ear:'#f3a7b8'}; return `
   <svg class="pet" viewBox="0 0 200 200">
    <path class="tail" d="M150 150 q45 5 32 -45" fill="none" stroke="#d4a0a6" stroke-width="8" stroke-linecap="round"/>

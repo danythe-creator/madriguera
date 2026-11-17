@@ -1,5 +1,6 @@
 // Mascotas desbloqueables y ajustes de juego.
 export const PETS = [
+ {id:'rat',    name:'Canela',sp:'Rata',   lvl:'A1', req:{xp:0},     hint:'Tu primera compañera.'},
  {id:'mouse',  name:'Pip',  sp:'Ratón',   lvl:'A1', req:{xp:0},     hint:'Tu primer compañero.'},
  {id:'hamster',name:'Mochi',sp:'Hámster', lvl:'A2', req:{xp:150},   hint:'Se desbloquea con 150 XP.'},
  {id:'guinea', name:'Tuna', sp:'Cuyo',    lvl:'B1', req:{xp:400},   hint:'Se desbloquea con 400 XP.'},

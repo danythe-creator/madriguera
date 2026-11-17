@@ -13,7 +13,7 @@ const fresh = () => ({
   version: 2,
   xp: 0, seeds: 3, streak: 0, bestStreak: 0, lastGoalDay: null,
   todayXP: 0, todayKey: dayKey(),
-  pet: 'mouse', fullness: 60, fullTs: Date.now(), unlocked: ['mouse'],
+  pet: 'rat', fullness: 60, fullTs: Date.now(), unlocked: ['rat', 'mouse'],
   cards: {},          // "unidad:palabra" -> datos FSRS
   stats: { sessions: 0, answers: 0, correct: 0, days: {} },  // days: "AAAA-MM-DD" -> XP
   settings: { rate: 0.9, voice: null, sound: true },
