@@ -38,7 +38,8 @@ Público: principalmente una mujer de 22 años que ama a los roedores, pero la a
 - [x] Conejos con variedades: enano, belier, holandés, cabeza de león.
 - [x] Cuyos con variedades: tricolor, abisinio, peruano.
 - [x] Espacios comunes (patio, sala, cocina): las mascotas conviven, se visitan, duermen y comen juntas; tocar objetos enseña su nombre en inglés.
-- [ ] Hámsters con variedades (sirio, enano ruso, roborovski).
+- [x] Hámsters con variedades: sirio, enano ruso, roborovski, panda, pelo largo.
+- [x] Manchis (mascota inicial, con manchita en la frente) y Myel, su compañera; Canela pasa a la tienda.
 - [x] Recámara y Huerto (se abren con semillas) y 16 objetos para decorar los espacios comunes; las mascotas juegan con ellos.
 - [ ] Más especies (chinchilla, jerbo, degú, capibara…).
 - [ ] Golosinas en la tienda (yogur, fruta) con reacciones especiales.

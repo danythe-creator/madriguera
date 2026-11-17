@@ -152,5 +152,5 @@ export const PHRASES = {
   rat: [['Rats are very smart.', 'Las ratas somos muy listas.'], ['I like cheese.', 'Me gusta el queso.'], ['Can I sleep in the hammock?', '¿Puedo dormir en la hamaca?']],
   rabbit: [['I like carrots!', '¡Me gustan las zanahorias!'], ['I can jump very high.', 'Puedo saltar muy alto.']],
   guinea: [['Wheek! Wheek!', '¡Uiik! ¡Uiik!'], ['I want vegetables, please.', 'Quiero verduras, por favor.']],
-  other: [['My cheeks are full!', '¡Tengo los cachetes llenos!'], ['I run very fast.', 'Corro muy rápido.']],
+  hamster: [['My cheeks are full!', '¡Tengo los cachetes llenos!'], ['I run very fast.', 'Corro muy rápido.']],
 };

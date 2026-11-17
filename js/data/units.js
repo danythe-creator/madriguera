@@ -16,11 +16,11 @@ export const UNITS = [
   {en:'yes',es:'sí',s:'___, I like apples.'},
   {en:'sorry',es:'perdón',s:'___, I am late.'},
   {en:'water',es:'agua',s:'I drink ___ every day.'},
-  {en:'friend',es:'amigo',s:'Pip is my ___.'},
+  {en:'friend',es:'amigo',s:'Myel is my ___.'},
   {en:'house',es:'casa',s:'My ___ is small.',alt:['home']},
   {en:'day',es:'día',s:'Have a nice ___!'},
   {en:'night',es:'noche',s:'Good ___, sleep well.'},
-  {en:'name',es:'nombre',s:'My ___ is Pip.'},
+  {en:'name',es:'nombre',s:'My ___ is Manchis.'},
  ]},
  { id:'food', name:'Comida', ico:'🧀', lvl:'A1', words:[
   {en:'apple',es:'manzana',s:'The ___ is red.'},
