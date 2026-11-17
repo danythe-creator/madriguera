@@ -2,10 +2,10 @@
    LECCIÓN: cola de tarjetas, tipos de ejercicio y retroalimentación.
    ===================================================================== */
 import { $, $$, shuffle, pick, esc, toast } from '../util.js';
-import { S, save, tick, allCards, cardState, isSeen, dueCards, unitUnlocked, addXP } from '../state.js';
+import { S, save, tick, allCards, cardState, isSeen, dueCards, unitUnlocked, addXP, petName } from '../state.js';
 import { UNITS } from '../data/units.js';
 import { CFG, petDef } from '../data/config.js';
-import { PET_SVG } from '../petsvg.js';
+import { petSVG } from '../petsvg.js';
 import { speak } from '../speech.js';
 import { schedule } from '../srs.js';
 import { check, isCognate } from '../answers.js';
@@ -68,7 +68,7 @@ function nextEx(){
   $('#lprog').style.width = (L.i / L.queue.length * 100) + '%';
   $('#lcount').textContent = `${L.i + 1}/${L.queue.length}`;
   const isNew = !isSeen(c.key), p = petDef(S.pet);
-  const hint = `<div class="pethint">${PET_SVG[S.pet]()}<span>${isNew ? `Palabra nueva: ${esc(p.name)} la está aprendiendo contigo.` : 'Repaso'}</span></div>`;
+  const hint = `<div class="pethint">${petSVG(p)}<span>${isNew ? `Palabra nueva: ${esc(petName(p.id))} la está aprendiendo contigo.` : 'Repaso'}</span></div>`;
   const list = t === 'type' ? [] : options(c, field); L.cur.list = list;
   const opts = `<div class="opts">${list.map((o, i) => `<button class="opt" data-i="${i}"><kbd>${i + 1}</kbd>${esc(o)}</button>`).join('')}</div>`;
   const spk = `<button class="spk" data-say="${esc(c.en)}" aria-label="Escuchar">🔊</button>`;
@@ -142,16 +142,17 @@ function finish(early){
   const bonus = perfect ? CFG.perfectBonus : 0;
   S.seeds += L.seeds + bonus; S.stats.sessions++;
   const goalHit = addXP(L.xp);
+  if (goalHit) S.seeds += CFG.goalBonus;
   save(); checkUnlocks(); renderTop();
   const p = petDef(S.pet);
   $('#lprog').style.width = '100%'; $('#lcount').textContent = '';
   $('#ex').innerHTML = `<div class="done">
-    <div class="pet-big" data-state="happy">${PET_SVG[p.id]()}</div>
+    <div class="pet-big" data-state="happy">${petSVG(p)}</div>
     <h2>${early ? 'Sesión guardada' : perfect ? '¡Sesión perfecta!' : '¡Sesión terminada!'}</h2>
-    <p class="sub">${esc(p.name)} ${perfect ? 'está dando saltos.' : 'aprendió contigo.'}</p>
+    <p class="sub">${esc(petName(p.id))} ${perfect ? 'está dando saltos.' : 'aprendió contigo.'}</p>
     <div class="rew"><div><b>+${L.xp}</b>XP</div><div><b>+${L.seeds + bonus}</b>🌰 semillas</div><div><b>${L.correct}/${L.correct + L.wrong}</b>aciertos</div></div>
     ${perfect ? `<p class="bonus">Bono por sesión perfecta: +${CFG.perfectBonus} 🌰</p>` : ''}
-    ${goalHit ? `<p class="bonus">🔥 ¡Meta del día cumplida! Racha: ${S.streak} día${S.streak > 1 ? 's' : ''}</p>` : ''}
+    ${goalHit ? `<p class="bonus">🔥 ¡Meta del día cumplida! +${CFG.goalBonus} 🌰 · Racha: ${S.streak} día${S.streak > 1 ? 's' : ''}</p>` : ''}
     <button class="cta" id="btnHome">Volver a la madriguera</button>
     <button class="cta warm" id="btnAgain">Otra ronda</button>
   </div>`;

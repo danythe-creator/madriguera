@@ -53,7 +53,7 @@ nav button.on{color:var(--terra2);background:var(--paper2)}
 .wall{position:absolute;inset:0 0 28% 0;
   background:
     radial-gradient(circle at 10px 10px,rgba(255,255,255,.35) 2px,transparent 3px) 0 0/26px 26px,
-    linear-gradient(180deg,#f8e2bf,#f1cf9f)}
+    linear-gradient(180deg,var(--wallA,#f8e2bf),var(--wallB,#f1cf9f))}
 .floor{position:absolute;left:0;right:0;bottom:0;height:28%;
   background:repeating-linear-gradient(90deg,#b67a4b 0 38px,#a86d41 38px 40px);
   box-shadow:inset 0 10px 14px rgba(0,0,0,.18)}
@@ -228,3 +228,58 @@ nav button.on{color:var(--terra2);background:var(--paper2)}
 .field select{font:inherit;font-weight:700;padding:10px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)}
 .field input[type=range]{accent-color:var(--moss)}
 nav button{font-size:11px}
+
+/* ---------- v3: decoración del cuarto ---------- */
+.room .wall{transition:background .4s}
+.slot{position:absolute;pointer-events:none;display:flex;align-items:flex-end;justify-content:center}
+.slot svg{width:100%;height:100%;overflow:visible;display:block}
+.slot-wall{right:16px;top:28px;width:124px;height:84px;align-items:center}
+.slot-hang{left:44%;top:0;width:118px;height:78px;align-items:flex-start}
+.slot-rug{left:50%;bottom:7%;width:200px;height:40px;transform:translateX(-56%)}
+.slot-left{left:10px;bottom:22%;width:92px;height:86px}
+.slot-right{right:14px;bottom:24%;width:92px;height:92px}
+.slot .shelf,.prev .shelf{position:relative;right:auto;top:auto;margin:auto}
+.slot .wheel,.prev .wheel{position:relative;right:auto;bottom:auto;flex:none}
+.slot-wall[data-item=lights]{width:160px;right:6px;top:8px}
+.slot-wall[data-item=lights] .bulb{animation:twinkle 2.4s ease-in-out infinite}
+.slot-wall[data-item=lights] .bulb:nth-child(odd){animation-delay:1.2s}
+@keyframes twinkle{50%{opacity:.45}}
+.slot-hang[data-item=pod]{width:80px;height:92px}
+.slot-hang[data-item=bridge]{width:150px;left:36%}
+.slot-hang[data-item=hammock] svg,.slot-hang[data-item=pod] svg{animation:sway 4s ease-in-out infinite;transform-origin:50% 0}
+@keyframes sway{50%{transform:rotate(3deg)}}
+.slot-right[data-item=tower]{height:116px}
+.slot-left[data-item=plant]{width:64px}
+
+/* ---------- colección ---------- */
+.petlist{padding:0 16px}
+.ghead{font-family:'Baloo 2';font-size:19px;margin:6px 2px 8px;display:flex;justify-content:space-between}
+.ghead span{color:var(--ink2);font-size:14px}
+.petlist .grid{padding:0;margin-bottom:12px}
+.pcard{position:relative}
+.pcard small{min-height:44px}
+.pcard .rename{position:absolute;top:6px;right:6px;width:32px;height:32px;margin:0;padding:0;background:var(--paper2);box-shadow:none;font-size:14px}
+.pcard button.goshop{background:var(--terra);box-shadow:0 3px 0 var(--terra2);color:#fff}
+.pcard.locked .goshop{opacity:1}
+
+/* ---------- tienda ---------- */
+.shophead{display:flex;align-items:center;justify-content:space-between}
+.shophead .stat{font-size:16px}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.scard{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.scard.equipped{border-color:var(--moss);background:#f3f8ec}
+.scard b{font-size:12px;line-height:1.2;flex:1}
+.scard small{font-size:11px;color:var(--ink2);font-weight:700}
+.scard button{padding:8px 4px;font-size:13px;background:var(--moss);color:#fff;box-shadow:0 3px 0 var(--moss2)}
+.scard button.buy{background:var(--gold);color:var(--ink);box-shadow:0 3px 0 #c98f1f}
+.scard button.buy[data-c]{background:var(--terra);color:#fff;box-shadow:0 3px 0 var(--terra2)}
+.scard button.use.on{background:var(--paper2);color:var(--ink2);box-shadow:none}
+.scard button.owned{background:var(--paper2);color:var(--ink2);box-shadow:none;opacity:1}
+.prev{position:relative;height:70px;display:flex;align-items:center;justify-content:center;background:var(--paper);border-radius:12px;overflow:hidden;padding:6px}
+.prev svg{width:100%;height:100%;overflow:visible}
+.prev.pet{height:84px}
+.prev .wheel{width:58px;height:58px}
+.prev .shelf{transform:scale(.8)}
+.swatch{height:70px;border-radius:12px;border:2px solid var(--line)}
+nav button{font-size:10.5px;padding:6px 0}
+nav button span{font-size:20px}

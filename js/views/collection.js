@@ -1,28 +1,52 @@
-// ROEDORES: colección de mascotas desbloqueables.
+// ROEDORES: colección de mascotas (ratas primero), elegir quién vive en casa y ponerles nombre.
 import { $, $$, esc, toast } from '../util.js';
-import { S, save } from '../state.js';
-import { PETS, petDef } from '../data/config.js';
-import { PET_SVG } from '../petsvg.js';
-import { register } from '../router.js';
+import { S, save, petName, learnedCount } from '../state.js';
+import { PETS, petDef, reqText } from '../data/config.js';
+import { petSVG } from '../petsvg.js';
+import { register, showView } from '../router.js';
 
+/** Desbloquea las mascotas cuyo requisito ya se cumplió (las de la tienda se compran). */
 export function checkUnlocks(){
+  const learned = learnedCount();
   PETS.forEach(p => {
     if (S.unlocked.includes(p.id)) return;
-    const ok = (p.req.xp !== undefined && S.xp >= p.req.xp) || (p.req.streak && S.streak >= p.req.streak);
+    const r = p.req;
+    const ok = (r.xp !== undefined && S.xp >= r.xp) || (r.streak && S.streak >= r.streak) || (r.learned && learned >= r.learned);
     if (ok){ S.unlocked.push(p.id); toast(`🎉 ¡${p.name} (${p.sp}) se unió a tu madriguera!`); }
   });
   save();
 }
 
+function card(p){
+  const un = S.unlocked.includes(p.id), sel = S.pet === p.id;
+  const btn = un
+    ? `<button class="${sel ? 'sel' : ''}" data-p="${p.id}">${sel ? 'En casa' : 'Elegir'}</button>`
+    : p.req.cost ? `<button class="goshop" data-shop="1">🛍️ 🌰 ${p.req.cost}</button>` : `<button disabled>🔒</button>`;
+  return `<div class="pcard ${un ? '' : 'locked'}">
+    ${un ? `<button class="rename" data-r="${p.id}" title="Cambiar nombre" aria-label="Cambiar nombre">✏️</button>` : ''}
+    ${petSVG(p)}<b>${un ? esc(petName(p.id)) : '???'}</b>
+    <small>${esc(p.sp)}<br>${un ? esc(p.desc || '') : esc(reqText(p))}</small>${btn}</div>`;
+}
+
 function renderPets(){
-  $('#pets').innerHTML = PETS.map(p => {
-    const un = S.unlocked.includes(p.id), sel = S.pet === p.id;
-    return `<div class="pcard ${un ? '' : 'locked'}">${PET_SVG[p.id]()}<b>${un ? esc(p.name) : '???'}</b>
-      <small>${esc(p.sp)} · ${p.lvl}<br>${un ? '' : esc(p.hint)}</small>
-      <button ${un ? '' : 'disabled'} class="${sel ? 'sel' : ''}" data-p="${p.id}">${sel ? 'En casa' : un ? 'Elegir' : '🔒'}</button></div>`;
-  }).join('');
-  $$('.pcard button').forEach(b => b.onclick = () => {
-    S.pet = b.dataset.p; save(); renderPets(); toast(`${petDef(S.pet).name} ahora vive en la casa.`);
+  const have = g => PETS.filter(p => p.group === g && S.unlocked.includes(p.id)).length;
+  const total = g => PETS.filter(p => p.group === g).length;
+  $('#pets').innerHTML = `
+    <h3 class="ghead">Ratas <span>${have('rat')}/${total('rat')}</span></h3>
+    <div class="grid">${PETS.filter(p => p.group === 'rat').map(card).join('')}</div>
+    <h3 class="ghead">Otros amigos <span>${have('other')}/${total('other')}</span></h3>
+    <div class="grid">${PETS.filter(p => p.group === 'other').map(card).join('')}</div>`;
+  $$('.pcard button[data-p]').forEach(b => b.onclick = () => {
+    S.pet = b.dataset.p; save(); renderPets(); toast(`${petName(S.pet)} ahora vive en la casa.`);
+  });
+  $$('.pcard .goshop').forEach(b => b.onclick = () => showView('shop'));
+  $$('.pcard .rename').forEach(b => b.onclick = () => {
+    const id = b.dataset.r, cur = petName(id);
+    const n = prompt(`Nuevo nombre para ${cur}:`, cur);
+    if (n === null) return;
+    const clean = n.trim().slice(0, 16);
+    if (!clean || clean === petDef(id).name) delete S.names[id]; else S.names[id] = clean;
+    save(); renderPets();
   });
 }
 register('pets', renderPets);

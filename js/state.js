@@ -3,7 +3,7 @@
    o con almacenamiento bloqueado la app sigue funcionando, sin guardar).
    ===================================================================== */
 import { UNITS } from './data/units.js';
-import { CFG } from './data/config.js';
+import { CFG, petDef } from './data/config.js';
 import { dayKey, dayKeyOffset } from './util.js';
 import { migrateSM2 } from './srs.js';
 
@@ -14,6 +14,10 @@ const fresh = () => ({
   xp: 0, seeds: 3, streak: 0, bestStreak: 0, lastGoalDay: null,
   todayXP: 0, todayKey: dayKey(),
   pet: 'rat', fullness: 60, fullTs: Date.now(), unlocked: ['rat', 'mouse'],
+  names: {},          // nombres personalizados: id de mascota -> nombre
+  owned: ['shelf', 'wheel', 'cream'],              // objetos de la tienda comprados
+  decor: { wall: 'shelf', right: 'wheel' },        // zona del cuarto -> objeto
+  wallTheme: 'cream',
   cards: {},          // "unidad:palabra" -> datos FSRS
   stats: { sessions: 0, answers: 0, correct: 0, days: {} },  // days: "AAAA-MM-DD" -> XP
   settings: { rate: 0.9, voice: null, sound: true },
@@ -84,4 +88,14 @@ export function addXP(xp){
     return true; // meta cumplida hoy por primera vez
   }
   return false;
+}
+
+/* ---------- mascotas y tienda ---------- */
+export const petName = id => S.names[id] || petDef(id).name;
+export const learnedCount = () => allCards().filter(c => isLearned(c.key)).length;
+
+/** Gasta semillas si alcanzan. Devuelve true si se pudo. */
+export function spend(n){
+  if (S.seeds < n) return false;
+  S.seeds -= n; save(); return true;
 }

@@ -31,8 +31,13 @@ Público: principalmente una mujer de 22 años que ama a los roedores, pero la a
 - [ ] Ejercicios de "repite después de mí" y de escuchar oraciones completas.
 
 ## Fase 4 — Madriguera viva (motivación)
-- [ ] Más especies (chinchilla, jerbo, degú, ardilla, capibara…) y variantes de color.
-- [ ] Decorar el cuarto con lo que se compra con semillas (tienda): ruedas, casitas, plantas, cojines.
+- [x] Canela, la rata, como mascota inicial.
+- [x] 7 variedades de rata: hooded, albina, berkshire, siamesa, husky, rex, azul.
+- [x] Tienda con semillas: adopción de ratas, 16 objetos de decoración en 5 zonas del cuarto y 5 colores de pared.
+- [x] Renombrar mascotas. Bono de semillas al cumplir la meta del día.
+- [ ] Rediseñar conejo, cuyo y hámster, con variedades (prioridad: conejos → cuyos → hámsters).
+- [ ] Más especies (chinchilla, jerbo, degú, capibara…).
+- [ ] Golosinas en la tienda (yogur, fruta) con reacciones especiales.
 - [ ] Mascotas que reaccionan al estudio: aprenden "trucos" y frases nuevas según tu nivel.
 - [ ] Logros, misiones diarias/semanales y "protector de racha".
 - [ ] Recordatorios diarios (notificaciones de la PWA).
